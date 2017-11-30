@@ -3,5 +3,5 @@
     "configuration": "cpu=16MHzatmega328",
     "port": "COM5",
     "sketch": "adafruit.ino",
-    "output": "../build"
+    "output": "./build"
 }

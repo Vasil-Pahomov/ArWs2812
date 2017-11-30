@@ -2,7 +2,7 @@
 #define color_h
 #include <Arduino.h>
 
-struct AlaColor
+struct Color
 {
     union
     {
@@ -14,6 +14,26 @@ struct AlaColor
         };
         byte raw[3];
     };
+
+    // allow construction from R, G, B
+    inline Color( uint8_t ir, uint8_t ig, uint8_t ib)  __attribute__((always_inline))
+    : r(ir), g(ig), b(ib)
+    {
+    }
+
+    // allow construction from 32-bit (really 24-bit) bit 0xRRGGBB color code
+    inline Color( uint32_t colorcode)  __attribute__((always_inline))
+    : r((colorcode >> 16) & 0xFF), g((colorcode >> 8) & 0xFF), b((colorcode >> 0) & 0xFF)
+    {
+    }
+
+    Color interpolate(Color color, float x)
+    {
+        int r0 = x*(color.r - r) + r;
+        int g0 = x*(color.g - g) + g;
+        int b0 = x*(color.b - b) + b;
+        return Color(r0, g0, b0);
+    }
     
     void fade(byte k)
     {
