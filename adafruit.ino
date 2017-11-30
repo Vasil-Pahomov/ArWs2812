@@ -1,17 +1,20 @@
 #include <Arduino.h>
 
 #include "anim_test.h"
+#include "anim_start.h"
 
-AnimTest a = AnimTest();
+Anim * a[2];
 
 void setup() {
-  a.setPeriod(500);
+  a[0] = new AnimTest();
+  a[1] = new AnimStart();
+  a[1]->setPeriod(10);
 }
 
 
 
 void loop() {
 
-  a.run();
+  a[1]->run();
 }
 

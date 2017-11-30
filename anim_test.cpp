@@ -1,7 +1,11 @@
 #include "anim_test.h"
 #include "color.h"
 
+void AnimTest::setUp() {
+}
 void AnimTest::runImpl() {
+    
+    Serial.println(c);
     Color clr(0);
     switch (c)
     {

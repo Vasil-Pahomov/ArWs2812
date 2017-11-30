@@ -3,6 +3,7 @@
 #include "color.h"
 #include "palette.h"
 #include "anim.h"
+#include "brightness.h"
 
 Anim::Anim() 
 {
@@ -31,11 +32,14 @@ void Anim::run()
     nextms=millis() + period;
     runImpl();
     for(int i=0; i<LEDS; i++)
-        pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
+        pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
   
     pixels.show();
     
 }
+
+void Anim::setUp()
+{}
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
 Color * Anim::leds = 0;

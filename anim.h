@@ -21,6 +21,8 @@ protected:
     static Adafruit_NeoPixel pixels; 
 
     virtual void runImpl() = 0;
+
+    virtual void setUp();
     
 public:
     Anim();

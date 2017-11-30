@@ -1,14 +1,5 @@
 #include <Arduino.h>
-#include "anim.h"
-
-class AnimStart : public Anim 
-{
-private:
-    int phase_c = 0;
-    int phase=0;
-protected:
-        virtual void runImpl();
-};
+#include "anim_start.h"
 
 void AnimStart::runImpl() {
 
@@ -32,7 +23,7 @@ void AnimStart::runImpl() {
         }
     } else {
         for(int i=0; i<LEDS; i++) {
-        leds[i].fade3(random(0,3), random(0,3), random(0,3));
+        leds[i].fade3(random(0,10), random(0,10), random(0,10));
         }
     }
 

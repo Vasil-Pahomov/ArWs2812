@@ -8,5 +8,6 @@ private:
     int c=0;
 protected:
         virtual void runImpl();
+        virtual void setUp();
 };
 #endif
