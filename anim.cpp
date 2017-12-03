@@ -14,7 +14,7 @@ Anim::Anim()
     }
     pixels.begin();
     
-    pixels.show(); // Устанавливаем все светодиоды в состояние "Выключено"
+    pixels.show(); // turn of all LEDs
     nextms = millis();
 }
 
@@ -33,6 +33,7 @@ void Anim::run()
     runImpl();
     for(int i=0; i<LEDS; i++)
         pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
+        //pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
   
     pixels.show();
     
@@ -43,3 +44,6 @@ void Anim::setUp()
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
 Color * Anim::leds = 0;
+
+byte Anim::period = 10;
+Palette * Anim::palette = 0;
