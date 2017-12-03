@@ -2,6 +2,6 @@
     "board": "arduino:avr:pro",
     "configuration": "cpu=16MHzatmega328",
     "port": "COM5",
-    "sketch": "adafruit.ino",
-    "output": "./build"
+    "sketch": "main.ino",
+    "output": "../build"
 }

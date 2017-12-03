@@ -2,11 +2,11 @@
 #include "color.h"
 
 void AnimTest::setUp() {
+    c = 0;
+    up = true;
 }
 void AnimTest::runImpl() {
-    
-    Serial.println(c);
-    Color clr(0);
+    /*Color clr(0);
     switch (c)
     {
         case 0:
@@ -24,6 +24,16 @@ void AnimTest::runImpl() {
         default:
             c = 0;
             break; 
+    }*/
+    Color clr = Color(c,c,c);
+    if (up) {
+        if (++c==255) {
+            up = false;
+        } 
+    } else {
+        if (--c==0) {
+            up = true;
+        }
     }
     for (int i=0;i<LEDS;i++) {
         leds[i] = clr; 

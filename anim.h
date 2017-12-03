@@ -4,30 +4,28 @@
 #include "ExtNeoPixel.h"
 #include "palette.h"
 
-#define PIN 2 // номер порта к которому подключен модуль
-#define LEDS 100 // количество светодиодов 
+#define PIN 2 // WS2812 pin number
+#define LEDS 100 // number of LEDs in the strip 
 
 class Anim {
     
 protected:
-    //период "такта" анимации, мс
-    byte period;
-    //значение millis() для следующего такта
-    unsigned long nextms;
-
-    Palette *palette;
-
+    // length of animation timeslot (period)
+    static byte period;
     static Color *leds;
     static Adafruit_NeoPixel pixels; 
+    static Palette *palette;
 
+    // millis for next timeslot 
+    unsigned long nextms;
     virtual void runImpl() = 0;
 
-    virtual void setUp();
     
 public:
     Anim();
     void setPeriod(byte period);
     void setPalette(Palette * pal);
+    virtual void setUp();
     void run();
 };
 

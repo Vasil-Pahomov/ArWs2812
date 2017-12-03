@@ -1,12 +1,12 @@
-#ifndef anim_test_h
-#define anim_test_h
+#ifndef anim_run_h
+#define anim_run_h
 
 #include "anim.h"
 
-class AnimTest : public Anim {
+class AnimRun : public Anim {
 private:
-    int c=0;
-    bool up = true;
+    float pos;
+    float inc;
 protected:
         virtual void runImpl();
         virtual void setUp();
