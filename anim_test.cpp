@@ -2,6 +2,7 @@
 #include "color.h"
 
 void AnimTest::setUp() {
+    Anim::setUp();
     c = 0;
     up = true;
 }

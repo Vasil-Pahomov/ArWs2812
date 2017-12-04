@@ -14,8 +14,8 @@ Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &Pal
 
 Anim * curAnim;
 
-unsigned long ms = 0;
-int period = 10;
+unsigned long ms = INTERVAL;
+int period = 20;
 int paletteInd = random(PALS);
 
 void setup() {
@@ -25,7 +25,6 @@ void setup() {
   anims[1] = new AnimRun();
 
   curAnim = anims[0];
-  curAnim->setUp();
   curAnim->setPeriod(period);
   curAnim->setPalette(pals[0]);
 }
@@ -38,10 +37,9 @@ void loop() {
         curAnim = anims[random(1,ANIMS)];
         curAnim->setPeriod(period);
         curAnim->setPalette(pals[paletteInd]);
-        curAnim->setUp();
         break;
       case 1:
-        period = random(5,15);
+        period = random(5,50);
         curAnim->setPeriod(period);
         break;
       case 2:

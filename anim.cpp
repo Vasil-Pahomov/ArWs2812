@@ -7,14 +7,18 @@
 
 Anim::Anim() 
 {
-    if (leds == 0) {
-        // allocate and clear leds array
-        leds = (Color *)malloc(3*LEDS);
-        memset(leds, 0, 3*LEDS);        
+    if (leds1 == 0) {
+        leds1 = (Color *)malloc(3*LEDS);
+        memset(leds1, 0, 3*LEDS);
     }
+    if (leds2 == 0) {
+        leds2 = (Color *)malloc(3*LEDS);
+        memset(leds2, 0, 3*LEDS);        
+    }
+
     pixels.begin();
-    
     pixels.show(); // turn of all LEDs
+
     nextms = millis();
 }
 
@@ -24,26 +28,62 @@ void Anim::setPeriod(byte period) {
 
 void Anim::setPalette(Palette * pal) {
     this->palette = pal;
+    setUp();
 }
 
 void Anim::run()
 {    
-    if ( millis()<=nextms) return;
+    if ( millis()<=nextms) {
+        digitalWrite(LED_BUILTIN, HIGH);
+        return;
+    }
+    digitalWrite(LED_BUILTIN, LOW);
     nextms=millis() + period;
     runImpl();
-    for(int i=0; i<LEDS; i++)
-        pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
-        //pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
+    //transition coef, if within 0..1 - transition is active
+    //changes from 1 to 0 during transition, so we interpolate from current color to previous
+    float transc = (float)((long)transms - (long)millis()) / TRANSITION_MS;
+    Color * leds_prev = (leds == leds1) ? leds2 : leds1;
+    
+    if (transc > 0) {
+        for(int i=0; i<LEDS; i++) {
+            //transition is in progress
+            Color c = leds[i].interpolate(leds_prev[i], transc);
+            pixels.setPixelColor(i, pixels.Color(BRI[c.r], BRI[c.g], BRI[c.b]));
+        }
+    } else {
+        for(int i=0; i<LEDS; i++) {
+            //regular operation
+            pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
+        }
+    }
   
     pixels.show();
+    digitalWrite(LED_BUILTIN, HIGH);
     
 }
 
 void Anim::setUp()
-{}
+{
+    pinMode(LED_BUILTIN, OUTPUT);  
+    transms = millis() + TRANSITION_MS;
+
+    //switch operation buffers (for transition to operate)
+    
+    if (leds == leds1) {
+        leds = leds2;
+    } else {
+        leds = leds1;
+    }
+    
+}
+
+
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
 Color * Anim::leds = 0;
+Color * Anim::leds1 = 0;
+Color * Anim::leds2 = 0;
 
 byte Anim::period = 10;
 Palette * Anim::palette = 0;
