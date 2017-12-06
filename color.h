@@ -27,6 +27,8 @@ struct Color
     {
     }
 
+    //interpolates between this color and provided. 
+    //x is from 0 to 1, 0 gives this color, 1 gives provided color, values between give interpolation
     Color interpolate(Color color, float x)
     {
         int r0 = x*(color.r - r) + r;
@@ -34,7 +36,16 @@ struct Color
         int b0 = x*(color.b - b) + b;
         return Color(r0, g0, b0);
     }
-    
+
+    //creates color with decreased brightness
+    Color brightness(byte k) {
+        int r0 = r * (int)k / 255;
+        int g0 = g * (int)k / 255;
+        int b0 = b * (int)k / 255;
+        return Color(r0, g0, b0);
+    }
+
+    //fades (decreases all RGB channels brightness) this color by k
     void fade(byte k)
     {
       if (r>=k) { r=r-k; } else { r=0; }
@@ -42,6 +53,7 @@ struct Color
       if (b>=k) { b=b-k; } else { b=0; }
     }
 
+    //fades color separately for each channel
     void fade3(byte dr, byte dg, byte db)
     {
       if (r>=dr) { r=r-dr; } else { r=0; }

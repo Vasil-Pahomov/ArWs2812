@@ -3,6 +3,7 @@
 #include "anim_test.h"
 #include "anim_start.h"
 #include "anim_run.h"
+#include "anim_pixiedust.h"
 #include "palette.h"
 
 #define ANIMS 2 //number of animations
@@ -21,8 +22,8 @@ int paletteInd = random(PALS);
 void setup() {
   Serial.begin(9600);
 
-  anims[0] = new AnimRun();
-  anims[1] = new AnimRun();
+  anims[0] = new AnimPixieDust();
+  anims[1] = new AnimPixieDust();
 
   curAnim = anims[0];
   curAnim->setPeriod(period);

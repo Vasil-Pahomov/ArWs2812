@@ -6,7 +6,7 @@
 
 #define PIN 2 // WS2812 pin number
 #define LEDS 100 // number of LEDs in the strip 
-#define TRANSITION_MS 4000 // transition time between animations, ms
+#define TRANSITION_MS 1000 // transition time between animations, ms
 
 class Anim {
     
