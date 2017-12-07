@@ -6,9 +6,9 @@
 // brigthness animation amplitude shift. true BrA amplitude is calculated as (0..127) value shifted right by this amount
 #define BRA_AMP_SHIFT 2
 // brigthness animation amplitude offset
-#define BRA_OFFSET 255-32
+#define BRA_OFFSET (222-32)
 // length of "dust" transition between colors, number of LEDs
-#define DUST_LENGTH 10
+#define DUST_LENGTH 20
 
 class AnimPixieDust : public Anim {
 private:
@@ -25,6 +25,8 @@ private:
 
     //phase of the animation (in fact - index of LED that changes color)
     byte phase = 0; 
+
+    const Color sparkleColor = Color(0xFFFFFF);
 
 protected:
         virtual void runImpl();

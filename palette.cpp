@@ -42,7 +42,7 @@ Palette PalParty = { 16, PalParty_ };
 // which looks wrong.
 Color PalHeat_[] =
 {
-    0x000000, 0xFF0000, 0xFFFF00, 0xFFFFCC
+    0x700070, 0xFF0000, 0xFFFF00, 0xFFFFCC
 };
 Palette PalHeat = { 4, PalHeat_ };
 
