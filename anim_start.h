@@ -6,10 +6,10 @@
 class AnimStart : public Anim 
 {
 private:
-    int phase_c = 0;
-    int phase=0;
+    int phase;
 protected:
         virtual void runImpl();
+        virtual void setUp();
 };
 
 #endif

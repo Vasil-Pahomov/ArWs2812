@@ -1,34 +1,32 @@
 #include <Arduino.h>
 #include "anim_start.h"
 
+void AnimStart::setUp() {
+    Anim::setUp();
+    phase = 0;
+}
+
 void AnimStart::runImpl() {
 
-    if (phase_c == 0) {
-        if (phase < LEDS) {
+    if (phase < LEDS) {
         leds[phase].r = 255;
         leds[phase].g = 255;
         leds[phase].b = 255;
-        } else if (phase == LEDS) {
         for(int i=0; i<LEDS; i++) {
-            leds[i].r = 255;
-            leds[i].g = 255;
-            leds[i].b = 255;
+            leds[i].fade(50);
+        }        
+    } else if (phase >= LEDS) 
+    {
+        for(int i=0; i<LEDS; i++) {
+            int r = LEDS + 255 - phase + (rng() >> 8);
+            r = min(r,255); leds[i].r = (byte)max(r,0);
+            int g = LEDS + 255 - phase + (rng() >> 8);
+            g = min(g,255); leds[i].g = (byte)max(g,0);
+            int b = LEDS + 255 - phase + (rng() >> 8);
+            b = min(b,255); leds[i].b = (byte)max(b,0);
         }
-        }
+        phase++;
     }
 
-    if (phase <= LEDS) {
-        for(int i=0; i<LEDS; i++) {
-        leds[i].fade(5);
-        }
-    } else {
-        for(int i=0; i<LEDS; i++) {
-        leds[i].fade3(random(0,10), random(0,10), random(0,10));
-        }
-    }
-
-    if ( phase_c++ > 5) {
-      phase++;
-      phase_c = 0;
-    }
+    phase++;
 }

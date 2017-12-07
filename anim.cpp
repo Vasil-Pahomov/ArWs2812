@@ -78,6 +78,12 @@ void Anim::setUp()
     
 }
 
+unsigned int rng() {
+    static unsigned int y = 0;
+    y += micros(); // seeded with changing number
+    y ^= y << 2; y ^= y >> 7; y ^= y << 7;
+    return (y);
+  }
 
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 

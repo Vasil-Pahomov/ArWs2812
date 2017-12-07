@@ -42,5 +42,6 @@ public:
     void run();
 };
 
+unsigned int rng();
 
 #endif

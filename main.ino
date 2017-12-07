@@ -6,9 +6,9 @@
 #include "anim_pixiedust.h"
 #include "palette.h"
 
-#define ANIMS 1 //number of animations
+#define ANIMS 3 //number of animations
 #define PALS 6 //number of palettes
-#define INTERVAL 10000 //change interval, msec
+#define INTERVAL 30000 //change interval, msec
 
 Anim * anims[ANIMS];
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire};
@@ -22,8 +22,9 @@ int paletteInd = random(PALS);
 void setup() {
   Serial.begin(9600);
 
-  anims[0] = new AnimPixieDust();
+  anims[0] = new AnimStart();
   anims[1] = new AnimRun();
+  anims[2] = new AnimPixieDust();
 
   curAnim = anims[0];
   curAnim->setPeriod(period);
