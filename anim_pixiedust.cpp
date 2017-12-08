@@ -14,16 +14,12 @@ void AnimPixieDust::setUp() {
 }
 
 void AnimPixieDust::runImpl() {
-    byte braPh = braPhase;
+    AnimGlow::runImpl();
+
     for (int i=0;i<LEDS;i++) {
         leds[i] = (i > phase) ? prevColor : curColor;
-        int bra = (char)braPh;
-        bra = BRA_OFFSET + (abs(bra) >> BRA_AMP_SHIFT);
-        leds[i] = leds[i].brightness((int)bra);
-       
-        braPh += braFreq;
+        processGlow(i);
     }
-    braPhase += braPhaseSpd;
 
     for (int k = phase-DUST_LENGTH/2; k < (phase + DUST_LENGTH/2); k++ ) {
         if (k >= 0 && k < LEDS) {
@@ -33,7 +29,7 @@ void AnimPixieDust::runImpl() {
             } else if (mix > 255) {
                 mix = 255;
             }
-                leds[k] = sparkleColor.interpolate(leds[k], (float)mix/255);
+            leds[k] = sparkleColor.interpolate(leds[k], (float)mix/255);
         }
     }
     phase++;
