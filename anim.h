@@ -16,6 +16,8 @@ private:
     //Color arrays - two for making transition
     static Color *leds1;
     static Color *leds2;
+
+    void animStart();
     
 protected:
     // length of animation timeslot (period)
@@ -31,15 +33,32 @@ protected:
     // millis to transition end
     unsigned long transms;
 
-    virtual void runImpl() = 0;
+    int phase;
+    int pos;
+    int inc;
 
+    void (Anim::*runImpl)();
+    void (Anim::*setUpImpl)();
+
+
+    //animation implementations
+    void animStart_SetUp();
+    void animStart_Run();
+
+    void animRun_SetUp();
+    void animRun_Run();
+    
     
 public:
+
+
     Anim();
     void setPeriod(byte period);
     void setPalette(Palette * pal);
-    virtual void setUp();
+    void setAnim(byte animInd);
+    void setUp();
     void run();
+
 };
 
 unsigned int rng();

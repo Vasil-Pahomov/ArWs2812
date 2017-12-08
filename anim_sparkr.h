@@ -3,6 +3,7 @@
 
 #include "anim_glow.h"
 
+/*
 //probability of spark when in idle plase
 #define SPARK_PROB 3
 
@@ -24,5 +25,6 @@ protected:
 
     const Color sparkleColor = Color(0xFFFFFF);
 };
+*/
 
 #endif

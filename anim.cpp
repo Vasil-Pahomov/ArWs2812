@@ -39,7 +39,12 @@ void Anim::run()
     }
     digitalWrite(LED_BUILTIN, LOW);
     nextms=millis() + period;
-    runImpl();
+    
+    if (runImpl != NULL)
+    {
+        (this->*runImpl)();
+    }
+
     //transition coef, if within 0..1 - transition is active
     //changes from 1 to 0 during transition, so we interpolate from current color to previous
     float transc = (float)((long)transms - (long)millis()) / TRANSITION_MS;
@@ -75,7 +80,24 @@ void Anim::setUp()
     } else {
         leds = leds1;
     }
-    
+
+    if (setUpImpl != NULL) {
+        (this->*setUpImpl)();
+    }
+}
+
+void Anim::setAnim(byte animInd)
+{
+    switch (animInd) {
+        case 0: 
+            setUpImpl = &Anim::animRun_SetUp;
+            runImpl = &Anim::animRun_Run;
+        break;
+        default:
+            setUpImpl = &Anim::animStart_SetUp;
+            runImpl = &Anim::animStart_Run;
+            break;
+    }
 }
 
 unsigned int rng() {

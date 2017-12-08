@@ -1,5 +1,6 @@
 #include "anim_sparkr.h"
 
+/*
 void AnimSparkr::initSeq()
 {
     for (int i=0; i<LEDS; i++) {
@@ -46,7 +47,7 @@ void AnimSparkr::runImpl() {
         }    
     }
     phase++;
-    if (phase > 3*LEDS) {
+    if (phase > 2*LEDS) {
         phase = 0;
         prevColor = curColor;
         curColor = palette->getPalColor((float)rng()/256);        
@@ -54,3 +55,4 @@ void AnimSparkr::runImpl() {
     }
 
 }
+*/

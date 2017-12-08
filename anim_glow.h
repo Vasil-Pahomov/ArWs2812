@@ -3,6 +3,7 @@
 
 #include "anim.h"
 
+/*
 // brigthness animation amplitude shift. true BrA amplitude is calculated as (0..127) value shifted right by this amount
 #define BRA_AMP_SHIFT 1
 // brigthness animation amplitude offset
@@ -29,4 +30,5 @@ protected:
 
     virtual void setUp();
 };
+*/
 #endif

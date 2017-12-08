@@ -4,7 +4,7 @@
 #include "anim.h"
 #include "anim_glow.h"
 
-
+/*
 // length of "dust" transition between colors, number of LEDs
 #define DUST_LENGTH 20
 
@@ -25,4 +25,5 @@ protected:
         virtual void runImpl();
         virtual void setUp();
 };
+*/
 #endif

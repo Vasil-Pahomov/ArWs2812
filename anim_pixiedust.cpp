@@ -1,7 +1,7 @@
 #include "anim_pixiedust.h"
 #include "color.h"
 #include "palette.h"
-
+/*
 void AnimPixieDust::setUp() {
     AnimGlow::setUp();
     phase = 0;
@@ -36,3 +36,4 @@ void AnimPixieDust::runImpl() {
     }
 
 }
+*/

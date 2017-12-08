@@ -1,6 +1,7 @@
 #include "anim_test.h"
 #include "color.h"
 
+/*
 void AnimTest::setUp() {
     Anim::setUp();
     c = 0;
@@ -25,7 +26,7 @@ void AnimTest::runImpl() {
         default:
             c = 0;
             break; 
-    }*/
+    }
     Color clr = Color(c,c,c);
     if (up) {
         if (++c==255) {
@@ -40,3 +41,4 @@ void AnimTest::runImpl() {
         leds[i] = clr; 
     }
 }
+*/

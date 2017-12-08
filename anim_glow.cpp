@@ -1,5 +1,6 @@
 #include "anim_glow.h"
 
+/*
 void AnimGlow::processGlow(int i)
 {
     int bra = (char) (braPhase + i * braFreq);
@@ -19,3 +20,4 @@ void AnimGlow::runImpl()
 {
     braPhase += braPhaseSpd;   
 }
+*/
