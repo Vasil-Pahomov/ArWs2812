@@ -4,9 +4,9 @@
 #include "anim.h"
 
 // brigthness animation amplitude shift. true BrA amplitude is calculated as (0..127) value shifted right by this amount
-#define BRA_AMP_SHIFT 2
+#define BRA_AMP_SHIFT 1
 // brigthness animation amplitude offset
-#define BRA_OFFSET (222-32)
+#define BRA_OFFSET (222-64)
 
 
 class AnimGlow : public Anim
@@ -26,5 +26,7 @@ protected:
     void processGlow(int i);
 
     virtual void runImpl();
+
+    virtual void setUp();
 };
 #endif

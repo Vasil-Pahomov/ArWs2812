@@ -3,14 +3,10 @@
 #include "palette.h"
 
 void AnimPixieDust::setUp() {
-    Anim::setUp();
+    AnimGlow::setUp();
     phase = 0;
     curColor = palette->getPalColor((float)rng()/256);
-    curColor.println();
     prevColor = palette->getPalColor((float)rng()/256);
-    prevColor.println();
-    braPhaseSpd = random(8,13);
-    braFreq = random(40,120);
 }
 
 void AnimPixieDust::runImpl() {

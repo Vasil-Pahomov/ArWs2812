@@ -1,10 +1,12 @@
 #include <Arduino.h>
 
+#include "palette.h"
+
 #include "anim_test.h"
 #include "anim_start.h"
 #include "anim_run.h"
 #include "anim_pixiedust.h"
-#include "palette.h"
+#include "anim_sparkr.h"
 
 #define ANIMS 3 //number of animations
 #define PALS 6 //number of palettes
@@ -15,7 +17,7 @@ Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &Pal
 
 Anim * curAnim;
 
-unsigned long ms = 10000;//startup animation duration
+unsigned long ms = 1000000;//startup animation duration
 int period = 20;
 int paletteInd = random(PALS);
 
@@ -23,9 +25,15 @@ void setup() {
   Serial.begin(9600);
   randomSeed(analogRead(0)*analogRead(1));
 
-  anims[0] = new AnimStart();
-  anims[1] = new AnimRun();
-  anims[2] = new AnimPixieDust();
+  Serial.println("1");
+
+  anims[0] = new AnimSparkr();
+  Serial.println("2");
+  anims[1] = new AnimTest();
+  Serial.println("3");
+  anims[2] = new AnimTest();
+
+  Serial.println("4");
 
   curAnim = anims[0];
   curAnim->setPeriod(period);
