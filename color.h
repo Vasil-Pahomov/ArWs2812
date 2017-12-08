@@ -60,6 +60,12 @@ struct Color
       if (g>=dg) { g=g-dg; } else { g=0; }
       if (b>=db) { b=b-db; } else { b=0; }
     }  
+
+    void println() {
+        Serial.print("r=");Serial.print(r);
+        Serial.print("g=");Serial.print(g);
+        Serial.print("b=");Serial.println(b);
+    }
 } ;
 
 #endif

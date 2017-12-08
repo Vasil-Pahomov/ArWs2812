@@ -5,8 +5,10 @@
 void AnimPixieDust::setUp() {
     Anim::setUp();
     phase = 0;
-    palInd = 1;
-    palIndPrev = 0;
+    curColor = palette->getPalColor((float)rng()/256);
+    curColor.println();
+    prevColor = palette->getPalColor((float)rng()/256);
+    prevColor.println();
     braPhaseSpd = random(8,13);
     braFreq = random(40,120);
 }
@@ -14,7 +16,7 @@ void AnimPixieDust::setUp() {
 void AnimPixieDust::runImpl() {
     byte braPh = braPhase;
     for (int i=0;i<LEDS;i++) {
-        leds[i] = (i > phase) ? palette->colors[palIndPrev] : palette->colors[palInd];
+        leds[i] = (i > phase) ? prevColor : curColor;
         int bra = (char)braPh;
         bra = BRA_OFFSET + (abs(bra) >> BRA_AMP_SHIFT);
         leds[i] = leds[i].brightness((int)bra);
@@ -35,12 +37,10 @@ void AnimPixieDust::runImpl() {
         }
     }
     phase++;
-    if (phase == 255) {
+    if (phase >= 4*LEDS) {
         phase = 0;
-        palIndPrev = palInd;
-        while (palInd == palIndPrev) {
-            palInd = random(0, palette->numColors);
-        }
+        prevColor = curColor;
+        curColor = palette->getPalColor((float)rng()/256);        
     }
 
 }

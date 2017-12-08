@@ -12,10 +12,10 @@
 
 class AnimPixieDust : public Anim {
 private:
-    //index of current color in palette
-    byte palInd;
-    //index of previous color in palette
-    byte palIndPrev;
+    //current color
+    Color curColor = Color(0);
+    //previous color
+    Color prevColor = Color(0);
     //brigthness animation (BrA) current initial phase
     byte braPhase;
     //braPhase change speed 
@@ -24,7 +24,7 @@ private:
     byte braFreq=150;
 
     //phase of the animation (in fact - index of LED that changes color)
-    byte phase = 0; 
+    int phase = 0; 
 
     const Color sparkleColor = Color(0xFFFFFF);
 

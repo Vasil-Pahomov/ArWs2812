@@ -15,12 +15,13 @@ Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &Pal
 
 Anim * curAnim;
 
-unsigned long ms = INTERVAL;
+unsigned long ms = 10000;//startup animation duration
 int period = 20;
 int paletteInd = random(PALS);
 
 void setup() {
   Serial.begin(9600);
+  randomSeed(analogRead(0)*analogRead(1));
 
   anims[0] = new AnimStart();
   anims[1] = new AnimRun();
@@ -32,26 +33,30 @@ void setup() {
 }
 
 void loop() {
+  curAnim->run();
   if (millis() > ms) {
     ms = millis() + INTERVAL;
-    switch (random(3)) {
+    switch ( (curAnim == anims[0]) ? 0 : random(2)) {
       case 0: 
-        curAnim = anims[random(0,ANIMS)];
-        curAnim->setPeriod(period);
-        curAnim->setPalette(pals[paletteInd]);
-        break;
-      case 1:
+      {
+        int prevAnim = curAnim;
+        while (prevAnim == curAnim) curAnim = anims[random(1,ANIMS)];
         period = random(5,50);
         curAnim->setPeriod(period);
-        break;
-      case 2:
-        paletteInd = random(PALS);
         curAnim->setPalette(pals[paletteInd]);
         break;
+      }
+      case 1:
+      {
+        int prevPalInd = paletteInd;
+        while (prevPalInd == paletteInd) paletteInd = random(PALS);
+        curAnim->setPalette(pals[paletteInd]);
+        Serial.println("NewPal");
+        break;
+      }
     }
     
 
   }
-  curAnim->run();
 }
 
