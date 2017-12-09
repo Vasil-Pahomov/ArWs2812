@@ -93,12 +93,18 @@ void Anim::setAnim(byte animInd)
             setUpImpl = &Anim::animRun_SetUp;
             runImpl = &Anim::animRun_Run;
         break;
+        case 1: 
+            setUpImpl = &Anim::animPixieDust_SetUp;
+            runImpl = &Anim::animPixieDust_Run;
+        break;        
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
             break;
     }
 }
+
+
 
 unsigned int rng() {
     static unsigned int y = 0;

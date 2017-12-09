@@ -1,7 +1,7 @@
 #ifndef anim_sparkr_h
 #define anim_sparkr_h
 
-#include "anim_glow.h"
+#include "anim.h"
 
 /*
 //probability of spark when in idle plase

@@ -8,6 +8,11 @@
 #define LEDS 100 // number of LEDs in the strip 
 #define TRANSITION_MS 1000 // transition time between animations, ms
 
+// brigthness animation amplitude shift. true BrA amplitude is calculated as (0..127) value shifted right by this amount
+#define BRA_AMP_SHIFT 1
+// brigthness animation amplitude offset
+#define BRA_OFFSET (222-64)
+
 class Anim {
     
 private:
@@ -26,8 +31,6 @@ protected:
     static Color *leds;
     static Palette *palette;
 
-
-
     // millis for next timeslot 
     unsigned long nextms;
     // millis to transition end
@@ -37,6 +40,30 @@ protected:
     int pos;
     int inc;
 
+    Color curColor = Color(0);
+    Color prevColor = Color(0);
+
+    Color sparkleColor = Color(0xFFFFFF);
+
+    //brigthness animation (BrA) current initial phase
+    byte braPhase;
+    //braPhase change speed 
+    byte braPhaseSpd=5;
+    //BrA frequency (spatial)
+    byte braFreq=150;
+
+    //glow animation setup
+    void glowSetUp();
+
+    //glow animation - must be called for each LED after it's BASIC color is set
+    //note this overwrites the LED color, so the glow assumes that color will be stored elsewhere (not in leds[])
+    //or computed each time regardless previous leds[] value
+    void glowForEachLed(int i);
+    
+    //glow animation - must be called at the end of each animaton run
+    void glowRun();
+
+    //run and setup handlers
     void (Anim::*runImpl)();
     void (Anim::*setUpImpl)();
 
@@ -48,6 +75,8 @@ protected:
     void animRun_SetUp();
     void animRun_Run();
     
+    void animPixieDust_SetUp();
+    void animPixieDust_Run();
     
 public:
 
