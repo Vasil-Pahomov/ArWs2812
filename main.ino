@@ -5,7 +5,7 @@
 #include "anim.h"
 
 
-#define ANIMS 3 //number of animations
+#define ANIMS 4 //number of animations
 #define PALS 9 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
@@ -16,7 +16,7 @@ Anim anim = Anim();
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
-int animInd = 2;
+int animInd = 3;
 
 int freeRam () {
   extern int __heap_start, *__brkval; 

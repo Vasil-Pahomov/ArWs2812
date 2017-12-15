@@ -1,18 +1,15 @@
 #include "anim_randcyc.h"
 
-/*
-void AnimRandCyc::setUp() {
+void Anim::animRandCyc_SetUp() {
+    Serial.println("RandCyc");
     for (int i=0;i<LEDS;i++) {
-        pos[i] = rng();
+        seq[i] = rngb();
     }
 }
 
-void AnimRandCyc::runImpl() {
+void Anim::animRandCyc_Run() {
     for (int i=0;i<LEDS;i++) {
-        Serial.print(pos[i]);Serial.print(",");
-        leds[i] = palette->getPalColor((float)pos[i] / 256);
-        pos[i]+=rng() >> 6;
+        leds[i] = palette->getPalColor((float)seq[i] / 256);
+        seq[i]+=rngb() >> 6;
     }
-    Serial.println();
 }
-*/

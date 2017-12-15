@@ -97,10 +97,14 @@ void Anim::setAnim(byte animInd)
             setUpImpl = &Anim::animSparkr_SetUp;
             runImpl = &Anim::animSparkr_Run;
         break;        
-    default:
+        case 3: 
+            setUpImpl = &Anim::animRandCyc_SetUp;
+            runImpl = &Anim::animRandCyc_Run;
+        break;        
+        default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
-            break;
+        break;
     }
 }
 

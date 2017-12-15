@@ -84,6 +84,10 @@ private:
     
     void animSparkr_SetUp();
     void animSparkr_Run();
+
+    void animRandCyc_SetUp();
+    void animRandCyc_Run();
+
 public:
 
 
