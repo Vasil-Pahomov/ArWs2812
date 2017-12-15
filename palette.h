@@ -32,19 +32,15 @@ struct Palette
 ////////////////////////////////////////////////////////////////////////////////
 // Palette definitions
 ////////////////////////////////////////////////////////////////////////////////
-#include "palette.h"
-
 extern Palette PalRgb;
-
 extern Palette PalRainbow;
-
 extern Palette PalRainbowStripe;
-
 extern Palette PalParty;
-
 extern Palette PalHeat;
-
 extern Palette PalFire;
+extern Palette PalIceBlue;
+extern Palette PalRachel;
+extern Palette PalBobParis;
 
 
 

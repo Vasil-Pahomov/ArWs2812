@@ -1,22 +1,24 @@
-#include "anim_pixiedust.h"
+#include "anim.h"
 #include "color.h"
 #include "palette.h"
 
-void AnimPixieDust::setUp() {
-    AnimGlow::setUp();
+#define DUST_LENGTH 20
+void Anim::animPixieDust_SetUp() {
+    Serial.println("PixieDust");
     phase = 0;
     curColor = palette->getPalColor((float)rng()/256);
     prevColor = palette->getPalColor((float)rng()/256);
+    glowSetUp();
 }
 
-void AnimPixieDust::runImpl() {
-    AnimGlow::runImpl();
+void Anim::animPixieDust_Run() {
 
     for (int i=0;i<LEDS;i++) {
         leds[i] = (i > phase) ? prevColor : curColor;
-        processGlow(i);
+        glowForEachLed(i);
     }
-
+    glowRun();
+    
     for (int k = phase-DUST_LENGTH/2; k < (phase + DUST_LENGTH/2); k++ ) {
         if (k >= 0 && k < LEDS) {
             int mix = abs(k-phase) * 255 / DUST_LENGTH + random(-100, 100);
@@ -34,5 +36,4 @@ void AnimPixieDust::runImpl() {
         prevColor = curColor;
         curColor = palette->getPalColor((float)rng()/256);        
     }
-
 }

@@ -1,13 +1,11 @@
 #include <Arduino.h>
-#include "anim_start.h"
+#include "anim.h"
 
-void AnimStart::setUp() {
-    Anim::setUp();
+void Anim::animStart_SetUp() {
     phase = 0;
 }
 
-void AnimStart::runImpl() {
-
+void Anim::animStart_Run() {
     if (phase < LEDS) {
         leds[phase].r = 255;
         leds[phase].g = 255;

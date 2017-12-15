@@ -2,69 +2,62 @@
 
 #include "palette.h"
 
-#include "anim_test.h"
-#include "anim_start.h"
-#include "anim_run.h"
-#include "anim_pixiedust.h"
-#include "anim_sparkr.h"
+#include "anim.h"
 
-#define ANIMS 3 //number of animations
-#define PALS 6 //number of palettes
-#define INTERVAL 30000 //change interval, msec
 
-Anim * anims[ANIMS];
-Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire};
+#define ANIMS 4 //number of animations
+#define PALS 9 //number of palettes
+#define INTERVAL 10000 //change interval, msec
 
-Anim * curAnim;
+Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue, &PalRachel, &PalBobParis};
 
-unsigned long ms = 1000000;//startup animation duration
-int period = 20;
+Anim anim = Anim();
+
+unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
+
 int paletteInd = random(PALS);
+int animInd = 3;
+
+int freeRam () {
+  extern int __heap_start, *__brkval; 
+  int v; 
+  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
+}
 
 void setup() {
   Serial.begin(9600);
   randomSeed(analogRead(0)*analogRead(1));
-
-  Serial.println("1");
-
-  anims[0] = new AnimSparkr();
-  Serial.println("2");
-  anims[1] = new AnimTest();
-  Serial.println("3");
-  anims[2] = new AnimTest();
-
-  Serial.println("4");
-
-  curAnim = anims[0];
-  curAnim->setPeriod(period);
-  curAnim->setPalette(pals[0]);
+  anim.setAnim(animInd);
+  anim.setPeriod(20);
+  anim.setPalette(pals[0]);
 }
 
 void loop() {
-  curAnim->run();
+  anim.run();
+  
   if (millis() > ms) {
     ms = millis() + INTERVAL;
-    switch ( (curAnim == anims[0]) ? 0 : random(2)) {
+    switch ( (animInd < 0) ? 0 : random(2)) {
       case 0: 
       {
-        int prevAnim = curAnim;
-        while (prevAnim == curAnim) curAnim = anims[random(1,ANIMS)];
-        period = random(5,50);
-        curAnim->setPeriod(period);
-        curAnim->setPalette(pals[paletteInd]);
+        Serial.print("anim->");
+        //int prevAnimInd = animInd;
+        //while (prevAnimInd == animInd) animInd = random(ANIMS);
+        anim.setAnim(animInd);
+        anim.setPeriod(random(5, 50));
+        anim.setPalette(pals[paletteInd]);
         break;
       }
       case 1:
       {
+        Serial.print("pal->");
         int prevPalInd = paletteInd;
         while (prevPalInd == paletteInd) paletteInd = random(PALS);
-        curAnim->setPalette(pals[paletteInd]);
-        Serial.println("NewPal");
+        anim.setPalette(pals[paletteInd]);
+        Serial.println(paletteInd);
         break;
       }
     }
-    
-
   }
 }
 

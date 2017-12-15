@@ -7,14 +7,10 @@
 
 Anim::Anim() 
 {
-    if (leds1 == 0) {
-        leds1 = (Color *)malloc(3*LEDS);
-        memset(leds1, 0, 3*LEDS);
-    }
-    if (leds2 == 0) {
-        leds2 = (Color *)malloc(3*LEDS);
-        memset(leds2, 0, 3*LEDS);        
-    }
+    leds1 = (Color *)malloc(3*LEDS);
+    memset(leds1, 0, 3*LEDS);
+    leds2 = (Color *)malloc(3*LEDS);
+    memset(leds2, 0, 3*LEDS);        
 
     pixels.begin();
     pixels.show(); // turn of all LEDs
@@ -39,7 +35,12 @@ void Anim::run()
     }
     digitalWrite(LED_BUILTIN, LOW);
     nextms=millis() + period;
-    runImpl();
+    
+    if (runImpl != NULL)
+    {
+        (this->*runImpl)();
+    }
+
     //transition coef, if within 0..1 - transition is active
     //changes from 1 to 0 during transition, so we interpolate from current color to previous
     float transc = (float)((long)transms - (long)millis()) / TRANSITION_MS;
@@ -75,21 +76,52 @@ void Anim::setUp()
     } else {
         leds = leds1;
     }
-    
+
+    if (setUpImpl != NULL) {
+        (this->*setUpImpl)();
+    }
 }
+
+void Anim::setAnim(byte animInd)
+{
+    switch (animInd) {
+        case 0: 
+            setUpImpl = &Anim::animRun_SetUp;
+            runImpl = &Anim::animRun_Run;
+        break;
+        case 1: 
+            setUpImpl = &Anim::animPixieDust_SetUp;
+            runImpl = &Anim::animPixieDust_Run;
+        break;        
+        case 2: 
+            setUpImpl = &Anim::animSparkr_SetUp;
+            runImpl = &Anim::animSparkr_Run;
+        break;        
+        case 3: 
+            setUpImpl = &Anim::animRandCyc_SetUp;
+            runImpl = &Anim::animRandCyc_Run;
+        break;        
+        default:
+            setUpImpl = &Anim::animStart_SetUp;
+            runImpl = &Anim::animStart_Run;
+        break;
+    }
+}
+
+
 
 unsigned int rng() {
     static unsigned int y = 0;
     y += micros(); // seeded with changing number
     y ^= y << 2; y ^= y >> 7; y ^= y << 7;
     return (y);
-  }
+}
+
+byte rngb() {
+    return (byte)rng();
+}
 
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
-Color * Anim::leds = 0;
 Color * Anim::leds1 = 0;
 Color * Anim::leds2 = 0;
-
-byte Anim::period = 10;
-Palette * Anim::palette = 0;
