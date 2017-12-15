@@ -1,58 +1,61 @@
-#include "anim_sparkr.h"
+#include "anim.h"
 
-/*
-void AnimSparkr::initSeq()
+void AnimSparkr_initSeq(byte * seq)
 {
     for (int i=0; i<LEDS; i++) {
         seq[i] = i;
     }
 }
 
-void AnimSparkr::shuffleSeq() 
+void AnimSparkr_shuffleSeq(byte * seq) 
 {
     for (int i=0; i<LEDS; i++) {
-        byte ind = (unsigned int) ( ((byte) rng()) * LEDS / 256);
+        byte ind = (unsigned int) ( rngb() * LEDS / 256);
         if (ind != i) {
             byte tmp = seq[ind];
             seq[ind] = seq[i];
             seq[i] = tmp;
         }
     }
+ 
 }
 
-void AnimSparkr::setUp() {
-    Serial.println("assu");
-    AnimGlow::setUp();
+void Anim::animSparkr_SetUp() {
+    Serial.println("Sparkr");
+    glowSetUp();
     phase = 0;
-    curColor = palette->getPalColor((float)rng()/256);
-    prevColor = palette->getPalColor((float)rng()/256);
-    curColor.println();
-    initSeq();
-    shuffleSeq();
+    curColor = palette->getPalColor((float)rngb()/256);
+    prevColor = palette->getPalColor((float)rngb()/256);
+    AnimSparkr_initSeq(seq);
+    AnimSparkr_shuffleSeq(seq);
+
+
 }
 
-void AnimSparkr::runImpl() {
-    AnimGlow::runImpl();
-
+void Anim::animSparkr_Run() {
     for (int i=0;i<LEDS;i++) {
-        int pos = seq[i];
+        byte pos = seq[i];
+
         leds[pos] = (i > phase)
             ? prevColor 
             : (i == phase) ? sparkleColor : curColor;
-        processGlow(i);
+        glowForEachLed(i);
     }
+    glowRun();
+
     if (phase > LEDS) {
         if (random(SPARK_PROB) == 0) {
-            leds[rng() * LEDS / 256] = sparkleColor;
+            int i = (int)rngb() * LEDS / 256;
+            leds[i] = sparkleColor;
+
         }    
     }
+
     phase++;
     if (phase > 2*LEDS) {
         phase = 0;
         prevColor = curColor;
-        curColor = palette->getPalColor((float)rng()/256);        
-        shuffleSeq();
+        curColor = palette->getPalColor((float)rngb()/256);        
+        AnimSparkr_shuffleSeq(seq);
     }
-
 }
-*/

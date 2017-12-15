@@ -4,9 +4,9 @@
 
 
 void Anim::animRun_SetUp() {
+    Serial.println("Run");
     pos = 0;
     inc = 1 + (((byte)rng()) >> 5);
-    Serial.print("inc=");Serial.println(inc);
     if (random(10) > 5) {
         inc = -inc;
     }

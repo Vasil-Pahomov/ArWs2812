@@ -13,6 +13,9 @@
 // brigthness animation amplitude offset
 #define BRA_OFFSET (222-64)
 
+//probability of spark when in idle plase
+#define SPARK_PROB 3
+
 class Anim {
     
 private:
@@ -24,12 +27,11 @@ private:
 
     void animStart();
     
-protected:
     // length of animation timeslot (period)
-    static byte period;
+    byte period;
     // array of Color to work with
-    static Color *leds;
-    static Palette *palette;
+    Color *leds;
+    Palette *palette;
 
     // millis for next timeslot 
     unsigned long nextms;
@@ -44,6 +46,8 @@ protected:
     Color prevColor = Color(0);
 
     Color sparkleColor = Color(0xFFFFFF);
+
+    byte seq[LEDS];
 
     //brigthness animation (BrA) current initial phase
     byte braPhase;
@@ -78,6 +82,8 @@ protected:
     void animPixieDust_SetUp();
     void animPixieDust_Run();
     
+    void animSparkr_SetUp();
+    void animSparkr_Run();
 public:
 
 
@@ -91,5 +97,7 @@ public:
 };
 
 unsigned int rng();
+
+byte rngb();
 
 #endif

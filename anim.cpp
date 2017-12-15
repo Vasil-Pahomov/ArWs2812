@@ -7,14 +7,10 @@
 
 Anim::Anim() 
 {
-    if (leds1 == 0) {
-        leds1 = (Color *)malloc(3*LEDS);
-        memset(leds1, 0, 3*LEDS);
-    }
-    if (leds2 == 0) {
-        leds2 = (Color *)malloc(3*LEDS);
-        memset(leds2, 0, 3*LEDS);        
-    }
+    leds1 = (Color *)malloc(3*LEDS);
+    memset(leds1, 0, 3*LEDS);
+    leds2 = (Color *)malloc(3*LEDS);
+    memset(leds2, 0, 3*LEDS);        
 
     pixels.begin();
     pixels.show(); // turn of all LEDs
@@ -97,7 +93,11 @@ void Anim::setAnim(byte animInd)
             setUpImpl = &Anim::animPixieDust_SetUp;
             runImpl = &Anim::animPixieDust_Run;
         break;        
-        default:
+        case 2: 
+            setUpImpl = &Anim::animSparkr_SetUp;
+            runImpl = &Anim::animSparkr_Run;
+        break;        
+    default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
             break;
@@ -111,13 +111,13 @@ unsigned int rng() {
     y += micros(); // seeded with changing number
     y ^= y << 2; y ^= y >> 7; y ^= y << 7;
     return (y);
-  }
+}
+
+byte rngb() {
+    return (byte)rng();
+}
 
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
-Color * Anim::leds = 0;
 Color * Anim::leds1 = 0;
 Color * Anim::leds2 = 0;
-
-byte Anim::period = 10;
-Palette * Anim::palette = 0;
