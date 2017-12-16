@@ -7,10 +7,7 @@
 
 Anim::Anim() 
 {
-    leds1 = (Color *)malloc(3*LEDS);
-    memset(leds1, 0, 3*LEDS);
-    leds2 = (Color *)malloc(3*LEDS);
-    memset(leds2, 0, 3*LEDS);        
+
 
     pixels.begin();
     pixels.show(); // turn of all LEDs
@@ -24,7 +21,9 @@ void Anim::setPeriod(byte period) {
 
 void Anim::setPalette(Palette * pal) {
     this->palette = pal;
-    setUp();
+    if (setUpOnPalChange) {
+        setUp();
+    }
 }
 
 void Anim::run()
@@ -50,12 +49,14 @@ void Anim::run()
         for(int i=0; i<LEDS; i++) {
             //transition is in progress
             Color c = leds[i].interpolate(leds_prev[i], transc);
-            pixels.setPixelColor(i, pixels.Color(BRI[c.r], BRI[c.g], BRI[c.b]));
+            pixels.setPixelColor(i, pixels.Color(c.r, c.g, c.b));
+            //pixels.setPixelColor(i, pixels.Color(BRI[c.r], BRI[c.g], BRI[c.b]));
         }
     } else {
         for(int i=0; i<LEDS; i++) {
             //regular operation
-            pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
+            pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
+            //pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
         }
     }
   
@@ -88,22 +89,32 @@ void Anim::setAnim(byte animInd)
         case 0: 
             setUpImpl = &Anim::animRun_SetUp;
             runImpl = &Anim::animRun_Run;
+            setUpOnPalChange = true;
         break;
         case 1: 
             setUpImpl = &Anim::animPixieDust_SetUp;
             runImpl = &Anim::animPixieDust_Run;
+            setUpOnPalChange = true;
         break;        
         case 2: 
             setUpImpl = &Anim::animSparkr_SetUp;
             runImpl = &Anim::animSparkr_Run;
+            setUpOnPalChange = true;
         break;        
         case 3: 
             setUpImpl = &Anim::animRandCyc_SetUp;
             runImpl = &Anim::animRandCyc_Run;
-        break;        
+            setUpOnPalChange = true;
+        break;   
+        case 4: 
+            setUpImpl = &Anim::animStars_SetUp;
+            runImpl = &Anim::animStars_Run;
+            setUpOnPalChange = true;
+        break;                
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
+            setUpOnPalChange = false;
         break;
     }
 }
@@ -123,5 +134,7 @@ byte rngb() {
 
 
 Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
-Color * Anim::leds1 = 0;
-Color * Anim::leds2 = 0;
+Color Anim::leds1[LEDS];
+Color Anim::leds2[LEDS];
+Color Anim::ledstmp[LEDS];
+byte Anim::seq[LEDS];

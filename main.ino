@@ -5,7 +5,7 @@
 #include "anim.h"
 
 
-#define ANIMS 4 //number of animations
+#define ANIMS 5 //number of animations
 #define PALS 9 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
@@ -16,7 +16,7 @@ Anim anim = Anim();
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
-int animInd = 3;
+int animInd = 4;
 
 int freeRam () {
   extern int __heap_start, *__brkval; 
@@ -26,6 +26,7 @@ int freeRam () {
 
 void setup() {
   Serial.begin(9600);
+  Serial.print(F("RAM="));Serial.println(freeRam());
   randomSeed(analogRead(0)*analogRead(1));
   anim.setAnim(animInd);
   anim.setPeriod(20);
@@ -40,7 +41,7 @@ void loop() {
     switch ( (animInd < 0) ? 0 : random(2)) {
       case 0: 
       {
-        Serial.print("anim->");
+        Serial.print(F("anim->"));
         //int prevAnimInd = animInd;
         //while (prevAnimInd == animInd) animInd = random(ANIMS);
         anim.setAnim(animInd);
@@ -50,7 +51,7 @@ void loop() {
       }
       case 1:
       {
-        Serial.print("pal->");
+        Serial.print(F("pal->"));
         int prevPalInd = paletteInd;
         while (prevPalInd == paletteInd) paletteInd = random(PALS);
         anim.setPalette(pals[paletteInd]);
