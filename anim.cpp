@@ -49,14 +49,20 @@ void Anim::run()
         for(int i=0; i<LEDS; i++) {
             //transition is in progress
             Color c = leds[i].interpolate(leds_prev[i], transc);
-            pixels.setPixelColor(i, pixels.Color(c.r, c.g, c.b));
-            //pixels.setPixelColor(i, pixels.Color(BRI[c.r], BRI[c.g], BRI[c.b]));
+            //pixels.setPixelColor(i, pixels.Color(c.r, c.g, c.b));
+            byte r = pgm_read_byte_near(BRI + c.r);
+            byte g = pgm_read_byte_near(BRI + c.g);
+            byte b = pgm_read_byte_near(BRI + c.b);
+            pixels.setPixelColor(i, pixels.Color(r, g, b));
         }
     } else {
         for(int i=0; i<LEDS; i++) {
             //regular operation
-            pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
-            //pixels.setPixelColor(i, pixels.Color(BRI[leds[i].r], BRI[leds[i].g], BRI[leds[i].b]));
+            //pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
+            byte r = pgm_read_byte_near(BRI + leds[i].r);
+            byte g = pgm_read_byte_near(BRI + leds[i].g);
+            byte b = pgm_read_byte_near(BRI + leds[i].b);
+            pixels.setPixelColor(i, pixels.Color(r, g, b));
         }
     }
   
