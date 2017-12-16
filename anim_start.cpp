@@ -2,6 +2,7 @@
 #include "anim.h"
 
 void Anim::animStart_SetUp() {
+    Serial.print(F("(start)"));
     phase = 0;
 }
 
