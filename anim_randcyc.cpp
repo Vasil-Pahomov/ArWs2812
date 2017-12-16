@@ -1,7 +1,7 @@
 #include "anim_randcyc.h"
 
 void Anim::animRandCyc_SetUp() {
-    Serial.println(F("RandCyc"));
+    Serial.print(F("RandCyc"));
     for (int i=0;i<LEDS;i++) {
         seq[i] = rngb();
     }

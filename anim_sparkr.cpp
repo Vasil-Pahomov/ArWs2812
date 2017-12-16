@@ -21,7 +21,7 @@ void AnimSparkr_shuffleSeq(byte * seq)
 }
 
 void Anim::animSparkr_SetUp() {
-    Serial.println(F("Sparkr"));
+    Serial.print(F("Sparkr"));
     glowSetUp();
     phase = 0;
     curColor = palette->getPalColor((float)rngb()/256);

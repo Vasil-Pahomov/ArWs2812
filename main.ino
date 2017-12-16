@@ -16,7 +16,7 @@ Anim anim = Anim();
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
-int animInd = 4;
+int animInd = -1;
 
 int freeRam () {
   extern int __heap_start, *__brkval; 
@@ -55,10 +55,11 @@ void loop() {
         int prevPalInd = paletteInd;
         while (prevPalInd == paletteInd) paletteInd = random(PALS);
         anim.setPalette(pals[paletteInd]);
-        Serial.println(paletteInd);
+        Serial.print(paletteInd);
         break;
       }
     }
+    Serial.println();
   }
 }
 

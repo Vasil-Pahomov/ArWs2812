@@ -4,7 +4,7 @@
 
 
 void Anim::animRun_SetUp() {
-    Serial.println(F("Run"));
+    Serial.print(F("Run"));
     pos = 0;
     inc = 1 + (rngb() >> 5);
     if (random(10) > 5) {
