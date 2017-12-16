@@ -15,6 +15,8 @@ struct Color
         byte raw[3];
     };
 
+    inline Color() __attribute__((always_inline)) : r(0), g(0), b(0) {}
+    
     // allow construction from R, G, B
     inline Color( uint8_t ir, uint8_t ig, uint8_t ib)  __attribute__((always_inline))
     : r(ir), g(ig), b(ib)
@@ -62,9 +64,9 @@ struct Color
     }  
 
     void println() {
-        Serial.print("r=");Serial.print(r);
-        Serial.print("g=");Serial.print(g);
-        Serial.print("b=");Serial.println(b);
+        Serial.print(F("r="));Serial.print(r);
+        Serial.print(F("g="));Serial.print(g);
+        Serial.print(F("b="));Serial.println(b);
     }
 } ;
 

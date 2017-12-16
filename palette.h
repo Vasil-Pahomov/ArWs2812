@@ -21,9 +21,6 @@ struct Palette
         // decimal part is used to interpolate between the two colors
         float t0 = i*numColors - trunc(i*numColors);
 
-        char buf[100];
-
-
         return colors[i0].interpolate(colors[i1], t0);
     }
        

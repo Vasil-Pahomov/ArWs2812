@@ -22,8 +22,10 @@ private:
     //Adafruit's class to operate strip
     static Adafruit_NeoPixel pixels; 
     //Color arrays - two for making transition
-    static Color *leds1;
-    static Color *leds2;
+    static Color leds1[LEDS];
+    static Color leds2[LEDS];
+    //auxiliary colors array
+    static Color ledstmp[LEDS];
 
     void animStart();
     
@@ -42,12 +44,16 @@ private:
     int pos;
     int inc;
 
+    //whether to call SetUp on palette change
+    //(some animations require full transition with fade, otherwise the colors would change in a step, some not)
+    bool setUpOnPalChange;
+
     Color curColor = Color(0);
     Color prevColor = Color(0);
 
     Color sparkleColor = Color(0xFFFFFF);
 
-    byte seq[LEDS];
+    static byte seq[LEDS];
 
     //brigthness animation (BrA) current initial phase
     byte braPhase;
@@ -87,6 +93,9 @@ private:
 
     void animRandCyc_SetUp();
     void animRandCyc_Run();
+
+    void animStars_SetUp();
+    void animStars_Run();
 
 public:
 

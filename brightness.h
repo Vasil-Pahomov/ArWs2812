@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+/*
 byte BRI[] = {
     0,
     0,
@@ -258,3 +259,4 @@ byte BRI[] = {
     251,
     255    
 };
+*/

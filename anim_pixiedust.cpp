@@ -4,7 +4,7 @@
 
 #define DUST_LENGTH 20
 void Anim::animPixieDust_SetUp() {
-    Serial.println("PixieDust");
+    Serial.println(F("PixieDust"));
     phase = 0;
     curColor = palette->getPalColor((float)rng()/256);
     prevColor = palette->getPalColor((float)rng()/256);
@@ -13,7 +13,7 @@ void Anim::animPixieDust_SetUp() {
 
 void Anim::animPixieDust_Run() {
 
-    for (int i=0;i<LEDS;i++) {
+    for (byte i=0;i<LEDS;i++) {
         leds[i] = (i > phase) ? prevColor : curColor;
         glowForEachLed(i);
     }
@@ -34,6 +34,6 @@ void Anim::animPixieDust_Run() {
     if (phase >= 4*LEDS) {
         phase = 0;
         prevColor = curColor;
-        curColor = palette->getPalColor((float)rng()/256);        
+        curColor = palette->getPalColor((float)rngb()/256);     
     }
 }
