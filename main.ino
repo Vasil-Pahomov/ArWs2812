@@ -5,7 +5,7 @@
 #include "anim.h"
 
 
-#define ANIMS 5 //number of animations
+#define ANIMS 6 //number of animations
 #define PALS 9 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
@@ -16,7 +16,7 @@ Anim anim = Anim();
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
-int animInd = -1;
+int animInd = 5;
 
 int freeRam () {
   extern int __heap_start, *__brkval; 
@@ -31,6 +31,9 @@ void setup() {
   anim.setAnim(animInd);
   anim.setPeriod(20);
   anim.setPalette(pals[0]);
+  //setUp call is required for animations that have setUpOnPaletteChange = false
+  //for other it's redundant thou safe
+  anim.setUp();
 }
 
 void loop() {

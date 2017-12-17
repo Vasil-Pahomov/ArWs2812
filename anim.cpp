@@ -116,7 +116,12 @@ void Anim::setAnim(byte animInd)
             setUpImpl = &Anim::animStars_SetUp;
             runImpl = &Anim::animStars_Run;
             setUpOnPalChange = false;
-        break;                
+        break;    
+        case 5: 
+            setUpImpl = &Anim::animSpread_SetUp;
+            runImpl = &Anim::animSpread_Run;
+            setUpOnPalChange = false;
+        break;                        
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
