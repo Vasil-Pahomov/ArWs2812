@@ -12,12 +12,9 @@ void Anim::animStars_SetUp() {
 
     //reset all phases
     memset(seq, 255, LEDS); 
-    seq[0] = 0;
-    ledstmp[0] = sparkleColor;
 }
 
 void Anim::animStars_Run() {   
-
     for (byte i=0;i<LEDS;i++) {
         byte phi = seq[i];
         if (phi != 255) {
@@ -42,5 +39,5 @@ void Anim::animStars_Run() {
             seq[pos] = 0;
             ledstmp[pos] = palette->getPalColor((float)rngb()/256);
         }
-    }    
+    }
 }
