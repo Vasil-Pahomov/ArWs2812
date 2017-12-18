@@ -4,7 +4,7 @@
 
 #define DUST_LENGTH 20
 void Anim::animPixieDust_SetUp() {
-    Serial.print(F("PixieDust"));
+    Serial.print(F("(pixiedust)"));
     phase = 0;
     curColor = palette->getPalColor((float)rng()/256);
     prevColor = palette->getPalColor((float)rng()/256);

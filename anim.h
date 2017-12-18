@@ -73,6 +73,8 @@ private:
     //glow animation - must be called at the end of each animaton run
     void glowRun();
 
+    void setUp();
+
     //run and setup handlers
     void (Anim::*runImpl)();
     void (Anim::*setUpImpl)();
@@ -99,6 +101,9 @@ private:
 
     void animSpread_SetUp();
     void animSpread_Run();
+
+    void animFly_SetUp();
+    void animFly_Run();
 public:
 
 
@@ -106,8 +111,8 @@ public:
     void setPeriod(byte period);
     void setPalette(Palette * pal);
     void setAnim(byte animInd);
-    void setUp();
     void run();
+    void doSetUp();
 
 };
 
