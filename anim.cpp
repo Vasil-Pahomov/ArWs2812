@@ -89,6 +89,13 @@ void Anim::setUp()
     }
 }
 
+void Anim::doSetUp()
+{
+    if (!setUpOnPalChange) {
+        setUp();
+    }
+}
+
 void Anim::setAnim(byte animInd)
 {
     switch (animInd) {
@@ -121,7 +128,12 @@ void Anim::setAnim(byte animInd)
             setUpImpl = &Anim::animSpread_SetUp;
             runImpl = &Anim::animSpread_Run;
             setUpOnPalChange = false;
-        break;                        
+        break;     
+        case 6: 
+            setUpImpl = &Anim::animFly_SetUp;
+            runImpl = &Anim::animFly_Run;
+            setUpOnPalChange = false;
+        break;                                
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;

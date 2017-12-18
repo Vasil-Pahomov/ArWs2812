@@ -5,9 +5,9 @@
 #include "anim.h"
 
 
-#define ANIMS 6 //number of animations
+#define ANIMS 7 //number of animations
 #define PALS 9 //number of palettes
-#define INTERVAL 10000 //change interval, msec
+#define INTERVAL 30000 //change interval, msec
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue, &PalRachel, &PalBobParis};
 
@@ -16,7 +16,7 @@ Anim anim = Anim();
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
-int animInd = 5;
+int animInd = -1;
 
 int freeRam () {
   extern int __heap_start, *__brkval; 
@@ -31,9 +31,7 @@ void setup() {
   anim.setAnim(animInd);
   anim.setPeriod(20);
   anim.setPalette(pals[0]);
-  //setUp call is required for animations that have setUpOnPaletteChange = false
-  //for other it's redundant thou safe
-  anim.setUp();
+  anim.doSetUp();
 }
 
 void loop() {
@@ -45,11 +43,12 @@ void loop() {
       case 0: 
       {
         Serial.print(F("anim->"));
-        //int prevAnimInd = animInd;
-        //while (prevAnimInd == animInd) animInd = random(ANIMS);
+        int prevAnimInd = animInd;
+        while (prevAnimInd == animInd) animInd = random(ANIMS);
         anim.setAnim(animInd);
         anim.setPeriod(random(5, 50));
         anim.setPalette(pals[paletteInd]);
+        anim.doSetUp();
         break;
       }
       case 1:
