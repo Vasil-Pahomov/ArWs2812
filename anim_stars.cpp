@@ -24,7 +24,6 @@ void Anim::animStars_Run() {
             } else {
                 leds[i] = col.brightness((255-phi) << 1);
             }
-            //leds[i].println();
             seq[i]++;
         } else {
             leds[i].r = 0;

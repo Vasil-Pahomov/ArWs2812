@@ -1,31 +1,38 @@
 #include <Arduino.h>
 #include "anim.h"
 
+unsigned long ppms;
+
 void Anim::animStart_SetUp() {
     Serial.print(F("(start)"));
     phase = 0;
+    ppms = millis();
 }
 
 void Anim::animStart_Run() {
-    if (phase < LEDS) {
-        leds[phase].r = 255;
-        leds[phase].g = 255;
-        leds[phase].b = 255;
-        for(int i=0; i<LEDS; i++) {
-            leds[i].fade(50);
-        }        
-    } else if (phase >= LEDS) 
-    {
-        for(int i=0; i<LEDS; i++) {
-            int r = LEDS + 255 - phase + (rng() >> 8);
-            r = min(r,255); leds[i].r = (byte)max(r,0);
-            int g = LEDS + 255 - phase + (rng() >> 8);
-            g = min(g,255); leds[i].g = (byte)max(g,0);
-            int b = LEDS + 255 - phase + (rng() >> 8);
-            b = min(b,255); leds[i].b = (byte)max(b,0);
-        }
-        phase++;
-    }
 
+    if ( millis() < (ppms + 10000)) return;
+    ppms = millis();
+    Color c;
     phase++;
+    switch (phase) {
+        case 1: 
+            c = Color(255,0,0);
+        break;
+        case 2: 
+            c = Color(0,255,0);
+        break;
+        case 3: 
+            c = Color(0,0,255);
+        break;
+        case 4: 
+            c = Color(255,255,255);
+        break;
+        case 6: 
+            phase = 0;
+        break;
+    }
+    for(int i=0; i<LEDS; i++) {
+        leds[i] = c;
+    }        
 }

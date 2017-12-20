@@ -13,7 +13,7 @@ Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &Pal
 
 Anim anim = Anim();
 
-unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
+unsigned long ms = 1000000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
 int animInd = -1;
