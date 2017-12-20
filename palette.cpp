@@ -63,22 +63,22 @@ Color PalFire_[] =
 Palette PalFire = { 6, PalFire_ };
 
 
-// palettes below are taken from http://www.color-hex.com/color-palettes/
+// palettes below are taken from http://www.color-hex.com/color-palettes/ (and modified)
 
 Color PalIceBlue_[] = 
 {
-    0xdcf3ff, 0xbaf2ef, 0xa2d2df, 0x396d7c, 0x257ca3
+    0x90ffff, 0xdcf3ff, 0x257ca3
 };
-Palette PalIceBlue = { 5, PalIceBlue_};
+Palette PalIceBlue = { 3, PalIceBlue_};
 
 Color PalRachel_[] = 
 {
-    0x8754b3, 0x9c6fda, 0xbe8eed, 0x8744a8, 0x582c7f
+    0xffffff, 0xbe8eed, 0x582c7f
 };
-Palette PalRachel = { 5, PalRachel_};
+Palette PalRachel = { 3, PalRachel_};
 
 Color PalBobParis_[] = 
 {
-    0x1c082e, 0xac2e92, 0x431c7d, 0x521260, 0x982584
+    0x1c082e, 0x521260
 };
-Palette PalBobParis = { 5, PalBobParis_};
+Palette PalBobParis = { 2, PalBobParis_};

@@ -1,4 +1,4 @@
-#include "anim_randcyc.h"
+#include "anim.h"
 
 void Anim::animRandCyc_SetUp() {
     Serial.print(F("(randCyc)"));
