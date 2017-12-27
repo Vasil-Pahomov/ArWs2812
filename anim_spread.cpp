@@ -2,11 +2,11 @@
 #include "color.h"
 #include "palette.h"
 
-#define SPREAD_MAX_WIDTH 10
+#define SPREAD_MAX_WIDTH 20
 
 void Anim::animSpread_SetUp() {
     Serial.print(F("(spread)"));
-    inc = random(4,15);
+    inc = random(2,8);
     memset(seq, 0, LEDS);
 }
 
