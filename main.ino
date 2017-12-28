@@ -9,13 +9,13 @@
 #define PALS 9 //number of palettes
 #define INTERVAL 30000 //change interval, msec
 
-Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue, &PalRachel, &PalBobParis};
+Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalParty, &PalRainbowStripe, &PalHeat, &PalFire, &PalIceBlue, &PalRachel, &PalBobParis};
 
 Anim anim = Anim();
 
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
-int paletteInd = random(PALS);
+int paletteInd = -1;
 int animInd = -1;
 
 int freeRam () {
@@ -39,29 +39,13 @@ void loop() {
   
   if (millis() > ms) {
     ms = millis() + INTERVAL;
-    switch ( (animInd < 0) ? 0 : random(2)) {
-      case 0: 
-      {
-        Serial.print(F("anim->"));
-        int prevAnimInd = animInd;
-        while (prevAnimInd == animInd) animInd = random(ANIMS);
-        anim.setAnim(animInd);
-        anim.setPeriod(random(5, 50));
-        anim.setPalette(pals[paletteInd]);
-        anim.doSetUp();
-        break;
-      }
-      case 1:
-      {
-        Serial.print(F("pal->"));
-        int prevPalInd = paletteInd;
-        while (prevPalInd == paletteInd) paletteInd = random(PALS);
-        anim.setPalette(pals[paletteInd]);
-        Serial.print(paletteInd);
-        break;
-      }
-    }
-    Serial.println();
+    animInd++;
+    if (animInd > ANIMS) animInd = 0;
+    paletteInd++;
+    if (paletteInd > PALS) paletteInd = 0;
+    anim.setAnim(animInd);
+    anim.setPalette(pals[paletteInd]);
+    anim.doSetUp();
   }
 }
 
