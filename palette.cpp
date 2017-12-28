@@ -63,9 +63,11 @@ Color PalFire_[] =
 Palette PalFire = { 6, PalFire_ };
 
 
+
 Color PalIceBlue_[] = 
 {
     0xffffff, 0x0000ff, 0x00ffff
 };
 Palette PalIceBlue = { 3, PalIceBlue_};
+
 
