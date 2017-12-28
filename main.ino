@@ -6,10 +6,10 @@
 
 
 #define ANIMS 7 //number of animations
-#define PALS 9 //number of palettes
+#define PALS 7 //number of palettes
 #define INTERVAL 30000 //change interval, msec
 
-Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalParty, &PalRainbowStripe, &PalHeat, &PalFire, &PalIceBlue, &PalRachel, &PalBobParis};
+Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalParty, &PalRainbowStripe, &PalHeat, &PalFire, &PalIceBlue};
 
 Anim anim = Anim();
 
@@ -40,9 +40,9 @@ void loop() {
   if (millis() > ms) {
     ms = millis() + INTERVAL;
     animInd++;
-    if (animInd > ANIMS) animInd = 0;
+    if (animInd >= ANIMS) animInd = 0;
     paletteInd++;
-    if (paletteInd > PALS) paletteInd = 0;
+    if (paletteInd >= PALS) paletteInd = 0;
     anim.setAnim(animInd);
     anim.setPalette(pals[paletteInd]);
     anim.doSetUp();
