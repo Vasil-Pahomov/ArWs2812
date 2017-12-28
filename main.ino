@@ -6,10 +6,10 @@
 
 
 #define ANIMS 7 //number of animations
-#define PALS 9 //number of palettes
+#define PALS 7 //number of palettes
 #define INTERVAL 30000 //change interval, msec
 
-Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue, &PalRachel, &PalBobParis};
+Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
 Anim anim = Anim();
 
