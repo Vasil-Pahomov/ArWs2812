@@ -1,4 +1,5 @@
-#include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
+
 
 #include "palette.h"
 
@@ -24,7 +25,10 @@ int freeRam () {
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
 }
 
+extern Adafruit_NeoPixel pixels;
+
 void setup() {
+  pixels.begin();
   Serial.begin(9600);
   Serial.print(F("RAM="));Serial.println(freeRam());
   randomSeed(analogRead(0)*analogRead(1));
@@ -64,4 +68,6 @@ void loop() {
     Serial.println();
   }
 }
+
+/**/
 

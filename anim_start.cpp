@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "anim.h"
 
 void Anim::animStart_SetUp() {

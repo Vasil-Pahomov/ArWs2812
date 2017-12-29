@@ -1,7 +1,6 @@
 #ifndef anim_h
 #define anim_h
-#include <Arduino.h>
-#include "ExtNeoPixel.h"
+#include <Adafruit_NeoPixel.h>
 #include "palette.h"
 
 #define PIN 2 // WS2812 pin number
@@ -16,11 +15,11 @@
 //probability of spark when in idle plase
 #define SPARK_PROB 3
 
+
+
 class Anim {
     
 private:
-    //Adafruit's class to operate strip
-    static Adafruit_NeoPixel pixels; 
     //Color arrays - two for making transition
     static Color leds1[LEDS];
     static Color leds2[LEDS];

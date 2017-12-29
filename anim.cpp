@@ -1,17 +1,14 @@
-#include <Arduino.h>
-#include "ExtNeoPixel.h"
+#include <Adafruit_NeoPixel.h>
 #include "color.h"
 #include "palette.h"
 #include "anim.h"
 #include "brightness.h"
 
+//Adafruit's class to operate strip
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
+
 Anim::Anim() 
 {
-
-
-    pixels.begin();
-    pixels.show(); // turn of all LEDs
-
     nextms = millis();
 }
 
@@ -29,10 +26,10 @@ void Anim::setPalette(Palette * pal) {
 void Anim::run()
 {    
     if ( millis()<=nextms) {
-        digitalWrite(LED_BUILTIN, HIGH);
+        //digitalWrite(LED_BUILTIN, HIGH);
         return;
     }
-    digitalWrite(LED_BUILTIN, LOW);
+    //digitalWrite(LED_BUILTIN, LOW);
     nextms=millis() + period;
     
     if (runImpl != NULL)
@@ -67,13 +64,13 @@ void Anim::run()
     }
   
     pixels.show();
-    digitalWrite(LED_BUILTIN, HIGH);
+    //digitalWrite(LED_BUILTIN, HIGH);
     
 }
 
 void Anim::setUp()
 {
-    pinMode(LED_BUILTIN, OUTPUT);  
+   //pinMode(LED_BUILTIN, OUTPUT);  
     transms = millis() + TRANSITION_MS;
 
     //switch operation buffers (for transition to operate)
@@ -156,7 +153,6 @@ byte rngb() {
 }
 
 
-Adafruit_NeoPixel Anim::pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
 Color Anim::leds1[LEDS];
 Color Anim::leds2[LEDS];
 Color Anim::ledstmp[LEDS];

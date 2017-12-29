@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 
 const byte PROGMEM BRI[] = {
     0,
