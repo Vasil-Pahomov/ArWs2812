@@ -5,6 +5,8 @@
 
 #define PIN 2 // WS2812 pin number
 #define LEDS 100 // number of LEDs in the strip 
+#define BRIGHTNESS 256// brightness adjustment, up to 256
+
 #define TRANSITION_MS 1000 // transition time between animations, ms
 
 // brigthness animation amplitude shift. true BrA amplitude is calculated as (0..127) value shifted right by this amount
