@@ -63,6 +63,13 @@ struct Color
       if (b>=db) { b=b-db; } else { b=0; }
     }  
 
+    //calculates "distance" between this color and given one
+    //more distance means more different colors in theory
+    //range is 0..192 (same colors...black-white)
+    byte distance(Color c) {
+      return (abs(r-c.r)>>2) + (abs(g-c.g) >> 2) + (abs(b-c.b) >> 2);
+    }
+
     void println() {
         Serial.print(F("r="));Serial.print(r);
         Serial.print(F("g="));Serial.print(g);

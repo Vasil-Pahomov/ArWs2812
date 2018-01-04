@@ -50,7 +50,7 @@ void loop() {
         int prevAnimInd = animInd;
         while (prevAnimInd == animInd) animInd = random(ANIMS);
         anim.setAnim(animInd);
-        anim.setPeriod(random(5, 50));
+        anim.setPeriod(random(20, 40));
         anim.setPalette(pals[paletteInd]);
         anim.doSetUp();
         break;

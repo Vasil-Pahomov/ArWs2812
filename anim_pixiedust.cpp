@@ -39,7 +39,9 @@ void Anim::animPixieDust_Run() {
         if (phase <= -3*LEDS) {
             phase = LEDS + DUST_LENGTH/2;
             prevColor = curColor;
-            curColor = palette->getPalColor((float)rngb()/256);     
+            while (prevColor.distance(curColor) < 64) { 
+              curColor = palette->getPalColor((float)rngb()/256);     
+            }
         }
     }
     glowRun();
