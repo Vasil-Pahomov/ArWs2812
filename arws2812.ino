@@ -39,6 +39,21 @@ void setup() {
 }
 
 void loop() {
+  /* this piece of code checks for looping while trying to find different colors
+  for (int pi=0;pi<PALS;pi++) {
+    int c = 0;
+    
+    Serial.print(F("pi="));Serial.print(pi);
+    Color c1 = pals[pi]->getPalColor((float)rngb()/256);
+    Color c2 = c1;
+    while (c1.isCloseTo(c2)) {
+      c = c + 1;
+      c2 = pals[pi]->getPalColor((float)rngb()/256);
+    }
+    Serial.print(F(" c="));Serial.println(c);
+  }
+  /**/
+  
   anim.run();
   
   if (millis() > ms) {
@@ -67,7 +82,6 @@ void loop() {
     }
     Serial.println();
   }
+  /**/
 }
-
-/**/
 

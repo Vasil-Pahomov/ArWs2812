@@ -63,11 +63,10 @@ struct Color
       if (b>=db) { b=b-db; } else { b=0; }
     }  
 
-    //calculates "distance" between this color and given one
-    //more distance means more different colors in theory
-    //range is 0..192 (same colors...black-white)
-    byte distance(Color c) {
-      return (abs(r-c.r)>>2) + (abs(g-c.g) >> 2) + (abs(b-c.b) >> 2);
+    //checks whether this color is visually close to given one
+    byte isCloseTo(Color c) {
+      int diff = abs(r-c.r) + abs(g-c.g) + abs(b-c.b);
+      return diff <= 220; //220 is magic number. Low values give "true" on closer colors, while higher can cause infinite loop while trying to find different color
     }
 
     void println() {
