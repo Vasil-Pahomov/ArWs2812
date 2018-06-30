@@ -1,5 +1,6 @@
 #include <Adafruit_NeoPixel.h>
-#include <SoftwareSerial.h>
+#define _SS_MAX_RX_BUFF 8 //lower SoftwareSerial's receive buffer to conserve some RAM
+#include <SoftwareSerial.h>   
 
 
 #include "palette.h"
@@ -9,7 +10,7 @@
 
 #define ANIMS 7 //number of animations
 #define PALS 7 //number of palettes
-#define INTERVAL 5000 //change interval, msec
+#define INTERVAL 30000 //change interval, msec
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
