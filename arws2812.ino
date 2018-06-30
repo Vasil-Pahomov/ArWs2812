@@ -10,7 +10,7 @@
 
 #define ANIMS 7 //number of animations
 #define PALS 7 //number of palettes
-#define INTERVAL 30000 //change interval, msec
+#define INTERVAL 10000 //change interval, msec
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
@@ -89,13 +89,13 @@ void loop() {
     bt.listen();
   }
   
-  if (bt.available() >= 2) {
+  if (bt.available() >= 3 && bt.peek() == '=') {
+    bt.read();//skip '=' char
     //todo: range checks!
     anim.setAnim(bt.read()-48);
     anim.setPalette(pals[bt.read()-48]);
     anim.doSetUp();
     ms = millis() + INTERVAL;
-    //while (bt.available()) bt.read();
     bt.print(F("="));
   }
   /**/
