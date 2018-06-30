@@ -7,6 +7,8 @@
 //Adafruit's class to operate strip
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
 
+
+
 Anim::Anim() 
 {
     nextms = millis();

@@ -1,4 +1,5 @@
 #include <Adafruit_NeoPixel.h>
+#include <SoftwareSerial.h>
 
 
 #include "palette.h"
@@ -8,11 +9,15 @@
 
 #define ANIMS 7 //number of animations
 #define PALS 7 //number of palettes
-#define INTERVAL 30000 //change interval, msec
+#define INTERVAL 5000 //change interval, msec
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
 Anim anim = Anim();
+
+//11 and 12 are RX (from BT) and TX (to BT) pin numbers
+SoftwareSerial bt(11,12);
+
 
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
@@ -29,13 +34,15 @@ extern Adafruit_NeoPixel pixels;
 
 void setup() {
   pixels.begin();
-  Serial.begin(9600);
-  Serial.print(F("RAM="));Serial.println(freeRam());
+  bt.begin(9600);
+  bt.print(F("RAM="));bt.println(freeRam());
   randomSeed(analogRead(0)*analogRead(1));
   anim.setAnim(animInd);
   anim.setPeriod(20);
   anim.setPalette(pals[0]);
   anim.doSetUp();
+  bt.listen();
+  
 }
 
 void loop() {
@@ -61,7 +68,6 @@ void loop() {
     switch ( (animInd < 0) ? 0 : random(2)) {
       case 0: 
       {
-        Serial.print(F("anim->"));
         int prevAnimInd = animInd;
         while (prevAnimInd == animInd) animInd = random(ANIMS);
         anim.setAnim(animInd);
@@ -72,15 +78,24 @@ void loop() {
       }
       case 1:
       {
-        Serial.print(F("pal->"));
         int prevPalInd = paletteInd;
         while (prevPalInd == paletteInd) paletteInd = random(PALS);
         anim.setPalette(pals[paletteInd]);
-        Serial.print(paletteInd);
         break;
       }
     }
-    Serial.println();
+    bt.print(F(">"));bt.print(animInd);bt.print(F("\t"));bt.println(paletteInd);
+    bt.listen();
+  }
+  
+  if (bt.available() >= 2) {
+    //todo: range checks!
+    anim.setAnim(bt.read()-48);
+    anim.setPalette(pals[bt.read()-48]);
+    anim.doSetUp();
+    ms = millis() + INTERVAL;
+    //while (bt.available()) bt.read();
+    bt.print(F("="));
   }
   /**/
 }

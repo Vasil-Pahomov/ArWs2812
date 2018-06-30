@@ -17,8 +17,6 @@
 //probability of spark when in idle plase
 #define SPARK_PROB 3
 
-
-
 class Anim {
     
 private:
