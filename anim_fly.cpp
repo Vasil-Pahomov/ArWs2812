@@ -4,7 +4,6 @@
 
 
 void Anim::animFly_SetUp() {
-    Serial.print(F("Fly"));
     //length of particle tail
     pos = random(2, 15);
     //probability of the tail
