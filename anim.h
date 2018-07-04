@@ -103,6 +103,10 @@ private:
 
     void animFly_SetUp();
     void animFly_Run();
+
+    void animBT_SetUp();
+    void animBT_Run();
+
 public:
 
 
@@ -110,7 +114,7 @@ public:
     void setPeriod(byte period);
     void setPalette(Palette * pal);
     void setAnim(byte animInd);
-    void run();
+    bool run();//returns true if actual change has completed, or false if it's dummy call (previous call was too recent in time)
     void doSetUp();
 
 };
