@@ -23,15 +23,16 @@ void Anim::setPalette(Palette * pal) {
     if (setUpOnPalChange) {
         setUp();
     }
+    pinMode(LED_BUILTIN, OUTPUT);
 }
 
-void Anim::run()
+bool Anim::run()
 {    
     if ( millis()<=nextms) {
-        //digitalWrite(LED_BUILTIN, HIGH);
-        return;
+        digitalWrite(LED_BUILTIN, HIGH);
+        return false;
     }
-    //digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(LED_BUILTIN, LOW);
     nextms=millis() + period;
     
     if (runImpl != NULL)
@@ -66,7 +67,8 @@ void Anim::run()
     }
   
     pixels.show();
-    //digitalWrite(LED_BUILTIN, HIGH);
+
+    return true;
     
 }
 
@@ -132,7 +134,12 @@ void Anim::setAnim(byte animInd)
             setUpImpl = &Anim::animFly_SetUp;
             runImpl = &Anim::animFly_Run;
             setUpOnPalChange = false;
-        break;                                
+        break;                       
+        case 7: //special
+            setUpImpl = &Anim::animBT_SetUp;
+            runImpl = &Anim::animBT_Run;
+            setUpOnPalChange = false;
+        break;
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
