@@ -5,7 +5,7 @@
 #include "commands.h"
 
 extern bool commandComplete;
-extern byte command[3]; 
+extern byte command[]; 
 
 //width of "spot" controlled by phone, in leds
 #define SPOT_WIDTH 10
@@ -37,7 +37,7 @@ void Anim::animBT_Run() {
       col.g = (cin - 192) * 4;
       col.b = (255 - cin) * 4;
      }
-     //Serial.print('C');Serial.print(cin);Serial.print('-');col.println();
+     Serial.print('M');Serial.print(pos);Serial.print('-');Serial.println(cin);
   }
 
   

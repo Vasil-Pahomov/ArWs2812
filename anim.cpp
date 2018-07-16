@@ -29,10 +29,10 @@ void Anim::setPalette(Palette * pal) {
 bool Anim::run()
 {    
     if ( millis()<=nextms) {
-        digitalWrite(LED_BUILTIN, HIGH);
+        digitalWrite(LED_BUILTIN, LOW);
         return false;
     }
-    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(LED_BUILTIN, HIGH);
     nextms=millis() + period;
     
     if (runImpl != NULL)
@@ -65,7 +65,7 @@ bool Anim::run()
             pixels.setPixelColor(i, pixels.Color(r, g, b));
         }
     }
-  
+
     pixels.show();
 
     return true;
