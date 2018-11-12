@@ -135,11 +135,13 @@ void Anim::setAnim(byte animInd)
             runImpl = &Anim::animFly_Run;
             setUpOnPalChange = false;
         break;                       
+#ifdef BLUETOOTH
         case 7: //special
             setUpImpl = &Anim::animBT_SetUp;
             runImpl = &Anim::animBT_Run;
             setUpOnPalChange = false;
         break;
+#endif
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;
