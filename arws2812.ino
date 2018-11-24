@@ -10,7 +10,7 @@
 #define PALS 7 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
-//#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
+#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
 //#define BLUETOOTH //if defined, bluetooth options are enabled. Disable when you don't use Bluetooth (saves memory, slightly faster)
 //#define BTHS //whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
 
@@ -138,6 +138,7 @@ void loop() {
   }
 #endif //BLUETOOTH
   
+  anim.run();
   
   if (millis() > ms) {
     ms = millis() + INTERVAL;
