@@ -1,6 +1,8 @@
 #ifndef color_h
 #define color_h
 #include <Arduino.h>
+#include "brightness.h"
+#include "options.h"
 
 struct Color
 {
@@ -41,9 +43,10 @@ struct Color
 
     //creates color with decreased brightness
     Color brightness(byte k) {
-        int r0 = r * (int)k / 255;
-        int g0 = g * (int)k / 255;
-        int b0 = b * (int)k / 255;
+        int br = (int)pgm_read_byte_near(BRI + k) * BRIGHTNESS / 256;
+        int r0 = r * br / 255;
+        int g0 = g * br / 255;
+        int b0 = b * br / 255;
         return Color(r0, g0, b0);
     }
 

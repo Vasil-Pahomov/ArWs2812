@@ -5,14 +5,7 @@
 #include "palette.h"
 #include "anim.h"
 #include "commands.h"
-
-#define ANIMS 7 //number of animations
-#define PALS 7 //number of palettes
-#define INTERVAL 10000 //change interval, msec
-
-//#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
-//#define BLUETOOTH //if defined, bluetooth options are enabled. Disable when you don't use Bluetooth (saves memory, slightly faster)
-//#define BTHS //whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
+#include "options.h"
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
@@ -35,12 +28,6 @@ unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimS
 
 int paletteInd = random(PALS);
 int animInd = -1;
-
-int freeRam () {
-  extern int __heap_start, *__brkval; 
-  int v; 
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
-}
 
 extern Adafruit_NeoPixel pixels;
 
@@ -143,7 +130,7 @@ void loop() {
       case 0: 
       {
         int prevAnimInd = animInd;
-        while (prevAnimInd == animInd) animInd = random(ANIMS);
+        while (prevAnimInd == animInd) animInd = 1;//random(ANIMS);
         anim.setAnim(animInd);
         anim.setPeriod(random(20, 40));
         anim.setPalette(pals[paletteInd]);

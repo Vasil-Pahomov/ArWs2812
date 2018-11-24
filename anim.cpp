@@ -2,7 +2,7 @@
 #include "color.h"
 #include "palette.h"
 #include "anim.h"
-#include "brightness.h"
+#include "options.h"
 
 //Adafruit's class to operate strip
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
@@ -19,6 +19,7 @@ void Anim::setPeriod(byte period) {
 }
 
 void Anim::setPalette(Palette * pal) {
+    this->prev_palette = (this->palette) ? this->palette : pal;
     this->palette = pal;
     if (setUpOnPalChange) {
         setUp();
@@ -43,26 +44,20 @@ bool Anim::run()
     //transition coef, if within 0..1 - transition is active
     //changes from 1 to 0 during transition, so we interpolate from current color to previous
     float transc = (float)((long)transms - (long)millis()) / TRANSITION_MS;
-    Color * leds_prev = (leds == leds1) ? leds2 : leds1;
+    byte * leds_prev = (leds == leds1) ? leds2 : leds1;
+    byte * bri_prev = (bri = bri1) ? bri2 : bri1; 
     
     if (transc > 0) {
         for(int i=0; i<LEDS; i++) {
             //transition is in progress
-            Color c = leds[i].interpolate(leds_prev[i], transc);
-            //pixels.setPixelColor(i, pixels.Color(c.r, c.g, c.b));
-            byte r = (int)pgm_read_byte_near(BRI + c.r) * BRIGHTNESS / 256;
-            byte g = (int)pgm_read_byte_near(BRI + c.g) * BRIGHTNESS / 256;
-            byte b = (int)pgm_read_byte_near(BRI + c.b) * BRIGHTNESS / 256;
-            pixels.setPixelColor(i, pixels.Color(r, g, b));
+            Color c =  palette->getPalColor(leds[i]).brightness(bri[i]).interpolate(prev_palette->getPalColor(leds_prev[i]).brightness(bri_prev[i]), transc);
+            pixels.setPixelColor(i, pixels.Color(c.r, c.g, c.b));
         }
     } else {
         for(int i=0; i<LEDS; i++) {
             //regular operation
-            //pixels.setPixelColor(i, pixels.Color(leds[i].r, leds[i].g, leds[i].b));
-            byte r = (int)pgm_read_byte_near(BRI + leds[i].r) * BRIGHTNESS / 256;
-            byte g = (int)pgm_read_byte_near(BRI + leds[i].g) * BRIGHTNESS / 256;
-            byte b = (int)pgm_read_byte_near(BRI + leds[i].b) * BRIGHTNESS / 256;
-            pixels.setPixelColor(i, pixels.Color(r, g, b));
+            Color c =  palette->getPalColor(leds[i]).brightness(bri[i]);
+            pixels.setPixelColor(i, pixels.Color(c.r, c.g, c.b));
         }
     }
 
@@ -159,12 +154,21 @@ unsigned int rng() {
     return (y);
 }
 
+//random byte
 byte rngb() {
     return (byte)rng();
 }
 
+//random byte in 0..254 range (useful for colors since 255-th color is always white)
 
-Color Anim::leds1[LEDS];
-Color Anim::leds2[LEDS];
-Color Anim::ledstmp[LEDS];
-byte Anim::seq[LEDS];
+byte rngbc() {
+  byte b = rngb();
+  if (b == 255) return 254;
+}
+
+
+byte Anim::leds1[LEDS];
+byte Anim::leds2[LEDS];
+byte Anim::bri1[LEDS];
+byte Anim::bri2[LEDS];
+byte Anim::ledstmp[LEDS];

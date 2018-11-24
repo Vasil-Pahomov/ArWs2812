@@ -32,7 +32,7 @@ void Anim::animSparkr_SetUp() {
 }
 
 void Anim::animSparkr_Run() {
-    for (int i=0;i<LEDS;i++) {
+/*    for (int i=0;i<LEDS;i++) {
         byte pos = seq[i];
 
         leds[pos] = (i > phase)
@@ -59,4 +59,5 @@ void Anim::animSparkr_Run() {
         }
         AnimSparkr_shuffleSeq(seq);
     }
+*/
 }

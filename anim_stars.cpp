@@ -14,6 +14,7 @@ void Anim::animStars_SetUp() {
 }
 
 void Anim::animStars_Run() {   
+/*  
     for (byte i=0;i<LEDS;i++) {
         byte phi = seq[i];
         if (phi < 254) {
@@ -38,4 +39,5 @@ void Anim::animStars_Run() {
             ledstmp[pos] = palette->getPalColor((float)rngb()/256);
         }
     }
+*/    
 }

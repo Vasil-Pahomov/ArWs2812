@@ -15,8 +15,7 @@ void Anim::animFly_SetUp() {
 }
 
 void Anim::animFly_Run() {
-    
-    byte launchpos;
+/*    byte launchpos;
     if (inc > 0) {
         launchpos = LEDS-1;
         for (int i=1;i<LEDS;i++) {
@@ -36,4 +35,5 @@ void Anim::animFly_Run() {
 
     leds[launchpos] = Color( (int)curColor.r * phase / pos, (int)curColor.g * phase / pos, (int)curColor.b * phase / pos) ;
     if (phase > 0) phase--; 
+*/
 }

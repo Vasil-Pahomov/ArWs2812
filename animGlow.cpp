@@ -10,7 +10,7 @@ void Anim::glowForEachLed(int i)
 {
     int bra = (char) (braPhase + i * braFreq);
     bra = BRA_OFFSET + (abs(bra) >> BRA_AMP_SHIFT);
-    leds[i] = leds[i].brightness((int)bra);
+    bri[i] = bra;
 }
 
 void Anim::glowRun()

@@ -3,11 +3,6 @@
 #include <Adafruit_NeoPixel.h>
 #include "palette.h"
 
-#define PIN 2 // WS2812 pin number
-#define LEDS 100 // number of LEDs in the strip 
-#define BRIGHTNESS 256// brightness adjustment, up to 256
-
-#define TRANSITION_MS 1000 // transition time between animations, ms
 
 // brigthness animation amplitude shift. true BrA amplitude is calculated as (0..127) value shifted right by this amount
 #define BRA_AMP_SHIFT 1
@@ -20,19 +15,23 @@
 class Anim {
     
 private:
-    //Color arrays - two for making transition
-    static Color leds1[LEDS];
-    static Color leds2[LEDS];
-    //auxiliary colors array
-    static Color ledstmp[LEDS];
+    //Led color arrays - two for making transition
+    //each element transforms to color with the corresponding palette
+    static byte leds1[LEDS];
+    static byte leds2[LEDS];
+    static byte bri1[LEDS];
+    static byte bri2[LEDS];
+    //auxiliary array
+    static byte ledstmp[LEDS];
 
     void animStart();
     
     // length of animation timeslot (period)
     byte period;
-    // array of Color to work with
-    Color *leds;
+    // arrays of colors and brightness to work with
+    byte *leds, *bri;
     Palette *palette;
+    Palette *prev_palette;
 
     // millis for next timeslot 
     unsigned long nextms;
@@ -47,12 +46,8 @@ private:
     //(some animations require full transition with fade, otherwise the colors would change in a step, some not)
     bool setUpOnPalChange;
 
-    Color curColor = Color(0);
-    Color prevColor = Color(0);
-
-    Color sparkleColor = Color(0xFFFFFF);
-
-    static byte seq[LEDS];
+    byte curColor = 0;
+    byte prevColor = 0;
 
     //brigthness animation (BrA) current initial phase
     byte braPhase;

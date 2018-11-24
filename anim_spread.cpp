@@ -10,7 +10,8 @@ void Anim::animSpread_SetUp() {
 }
 
 void Anim::animSpread_Run() {
-    memset(leds, 0, 3*LEDS);
+/*    
+ memset(leds, 0, 3*LEDS);
 
     for (int i=0;i<LEDS;i++) {
         if (seq[i] > 0) {
@@ -33,4 +34,5 @@ void Anim::animSpread_Run() {
         ledstmp[pos] = palette->getPalColor((float)rngb()/256);
         seq[pos] = SPREAD_MAX_WIDTH;
     }        
+*/
 }

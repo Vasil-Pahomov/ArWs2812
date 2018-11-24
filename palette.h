@@ -2,7 +2,7 @@
 #define palette_h
 
 #include "color.h"
-
+#include "options.h"
 
 struct Palette
 {
@@ -11,17 +11,20 @@ struct Palette
     
     /**
     * Get the interpolated color from the palette.
-    * The argument is a floating number between 0 and 1
+    * The argument is between 0 and 254; the value of 255 is used for white
     */
-    Color getPalColor(float i)
+    Color getPalColor(byte i)
     {
-        int i0 = (int)(i*numColors)%(numColors);
-        int i1 = (int)(i*numColors+1)%(numColors);
-        
-        // decimal part is used to interpolate between the two colors
-        float t0 = i*numColors - trunc(i*numColors);
+      if (i == 255) { //special case of "spark" color
+        return Color(SPARK_R, SPARK_G, SPARK_B);
+      }
+      int i0 = (int)(i*numColors/256)%(numColors);
+      int i1 = (int)(i*numColors/256+1)%(numColors);
+      
+      // decimal part is used to interpolate between the two colors
+      float t0 = i*numColors/256 - trunc(i*numColors/256);
 
-        return colors[i0].interpolate(colors[i1], t0);
+      return colors[i0].interpolate(colors[i1], t0);
     }
        
 };
