@@ -36,11 +36,13 @@ unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimS
 int paletteInd = random(PALS);
 int animInd = -1;
 
+#ifdef DEBUG
 int freeRam () {
   extern int __heap_start, *__brkval; 
   int v; 
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
 }
+#endif
 
 extern Adafruit_NeoPixel pixels;
 
