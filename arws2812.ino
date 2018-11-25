@@ -10,14 +10,13 @@
 #define PALS 7 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
-#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
-//#define BLUETOOTH //if defined, bluetooth options are enabled. Disable when you don't use Bluetooth (saves memory, slightly faster)
 //#define BTHS //whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
+//#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
 Anim anim = Anim();
-#ifdef BLUETOOTH
+
 #ifndef BTHS
 //11 and 12 are RX (from BT) and TX (to BT) pin numbers
 SoftwareSerial bt(11,12);
@@ -29,20 +28,18 @@ byte command[COMMAND_LENGTH-1];   //BT command buffer
 bool commandComplete;  //flag indicating whether the command is complete or not
 byte cmdPos;  //position inside command buffer; 0 means buffer is empty; 1 means command marker received; 2...5 means command data received. Value of 5 means the command is fully received
 
-#endif //BLUETOOTH
+
 
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
 int paletteInd = random(PALS);
 int animInd = -1;
 
-#ifdef DEBUG
 int freeRam () {
   extern int __heap_start, *__brkval; 
   int v; 
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
 }
-#endif
 
 extern Adafruit_NeoPixel pixels;
 
@@ -52,18 +49,14 @@ void setup() {
   Serial.print(F("RAM="));Serial.println(freeRam());
 #endif
   pixels.begin();
-#ifdef BLUETOOTH
   bt.begin(9600);
-#endif
   randomSeed(analogRead(0)*analogRead(1));
   anim.setAnim(animInd);
   anim.setPeriod(20);
   anim.setPalette(pals[0]);
   anim.doSetUp();
-#ifdef BLUETOOTH
 #ifndef BTHS
   bt.listen();
-#endif
 #endif
 }
 
@@ -85,7 +78,6 @@ void loop() {
 
 
 
-#ifdef BLUETOOTH
 
   if (bt.available()) {
     if (cmdPos == 0) { //wait for command marker when command buffer is empty, discard everything that doesn't match command marker
@@ -136,9 +128,7 @@ void loop() {
     }  
     commandComplete = false;
   }
-#endif //BLUETOOTH
   
-  anim.run();
   
   if (millis() > ms) {
     ms = millis() + INTERVAL;
@@ -161,13 +151,10 @@ void loop() {
         break;
       }
     }
-    
-#ifdef BLUETOOTH
     bt.print(F(">"));bt.print(animInd);bt.print(F("\t"));bt.println(paletteInd);
 #ifndef BTHS
     bt.listen();
 #endif
-#endif //BLUETOOTH
   }
 
 
