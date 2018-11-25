@@ -60,10 +60,10 @@ void loop() {
         Serial.print(F("anim->"));
         int prevAnimInd = animInd;
 #ifdef USE_START_ANIMATION
-        while (prevAnimInd == animInd) animInd = random(ANIMS);
-#else
         while (prevAnimInd == animInd) animInd = random(ANIMS+1) - 1;
         if (animInd < 0) ms = millis() + 10000;//startup animation has fixed 10 seconds length
+#else
+        while (prevAnimInd == animInd) animInd = random(ANIMS);
 #endif        
         anim.setAnim(animInd);
         anim.setPeriod(random(20, 40));
