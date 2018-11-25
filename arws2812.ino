@@ -10,7 +10,7 @@
 #define PALS 7 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
-#define BTHS //whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
+//#define BTHS //whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
 //#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
