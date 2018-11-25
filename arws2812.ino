@@ -10,6 +10,8 @@
 #define PALS 7 //number of palettes
 #define INTERVAL 30000 //change interval, msec
 
+#define USE_START_ANIMATION //start animation is used in cycling as well as other animations
+
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
 Anim anim = Anim();
@@ -19,18 +21,12 @@ unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimS
 int paletteInd = random(PALS);
 int animInd = -1;
 
-int freeRam () {
-  extern int __heap_start, *__brkval; 
-  int v; 
-  return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval); 
-}
-
 extern Adafruit_NeoPixel pixels;
 
 void setup() {
   pixels.begin();
   Serial.begin(9600);
-  Serial.print(F("RAM="));Serial.println(freeRam());
+  Serial.println(F("Start"));
   randomSeed(analogRead(0)*analogRead(1));
   anim.setAnim(animInd);
   anim.setPeriod(20);
@@ -58,12 +54,17 @@ void loop() {
   
   if (millis() > ms) {
     ms = millis() + INTERVAL;
-    switch ( (animInd < 0) ? 0 : random(2)) {
+    switch ( (animInd < 0) ? 0 : random(1)) {
       case 0: 
       {
         Serial.print(F("anim->"));
         int prevAnimInd = animInd;
+#ifdef USE_START_ANIMATION
         while (prevAnimInd == animInd) animInd = random(ANIMS);
+#else
+        while (prevAnimInd == animInd) animInd = random(ANIMS+1) - 1;
+        if (animInd < 0) ms = millis() + 10000;//startup animation has fixed 10 seconds length
+#endif        
         anim.setAnim(animInd);
         anim.setPeriod(random(20, 40));
         anim.setPalette(pals[paletteInd]);
@@ -84,4 +85,3 @@ void loop() {
   }
   /**/
 }
-
