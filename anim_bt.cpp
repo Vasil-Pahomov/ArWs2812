@@ -1,4 +1,3 @@
-#ifdef BLUETOOTH
 #include <SoftwareSerial.h>
 #include "anim.h"
 #include "color.h"
@@ -49,4 +48,4 @@ void Anim::animBT_Run() {
       }
    }
 }
-#endif
+
