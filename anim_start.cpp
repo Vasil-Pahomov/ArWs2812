@@ -16,11 +16,11 @@ void Anim::animStart_Run() {
     } else if (phase >= LEDS) 
     {
         for(int i=0; i<LEDS; i++) {
-            int r = LEDS + 255 - phase + (rng() >> 8);
+            int r = LEDS + 255 - phase + rngb();
             r = min(r,255); leds[i].r = (byte)max(r,0);
-            int g = LEDS + 255 - phase + (rng() >> 8);
+            int g = LEDS + 255 - phase + rngb();
             g = min(g,255); leds[i].g = (byte)max(g,0);
-            int b = LEDS + 255 - phase + (rng() >> 8);
+            int b = LEDS + 255 - phase + rngb();
             b = min(b,255); leds[i].b = (byte)max(b,0);
         }
         phase++;

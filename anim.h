@@ -105,6 +105,10 @@ private:
 
     void animFly_SetUp();
     void animFly_Run();
+
+    void animOsc_SetUp();
+    void animOsc_Run();
+
 public:
 
 
