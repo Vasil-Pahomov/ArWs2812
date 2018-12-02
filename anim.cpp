@@ -131,11 +131,6 @@ void Anim::setAnim(byte animInd)
             runImpl = &Anim::animFly_Run;
             setUpOnPalChange = false;
         break;                                
-        case 7: 
-            setUpImpl = &Anim::animOsc_SetUp;
-            runImpl = &Anim::animOsc_Run;
-            setUpOnPalChange = false;
-        break;                                
         default:
             setUpImpl = &Anim::animStart_SetUp;
             runImpl = &Anim::animStart_Run;

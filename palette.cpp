@@ -70,3 +70,9 @@ Color PalIceBlue_[] =
     0xffffff, 0x0000ff, 0x00ffff
 };
 Palette PalIceBlue = { 3, PalIceBlue_};
+
+Color PalXMas_[] = 
+{
+    0xff0000, 0x00ff00
+};
+Palette PalXMas = { 2, PalXMas_};

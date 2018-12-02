@@ -4,7 +4,7 @@
 #include "palette.h"
 
 #define PIN 2 // WS2812 pin number
-#define LEDS 100 // number of LEDs in the strip 
+#define LEDS 50 // number of LEDs in the strip 
 #define BRIGHTNESS 256// brightness adjustment, up to 256
 
 #define TRANSITION_MS 1000 // transition time between animations, ms
@@ -105,9 +105,6 @@ private:
 
     void animFly_SetUp();
     void animFly_Run();
-
-    void animOsc_SetUp();
-    void animOsc_Run();
 
 public:
 

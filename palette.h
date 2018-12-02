@@ -36,5 +36,6 @@ extern Palette PalParty;
 extern Palette PalHeat;
 extern Palette PalFire;
 extern Palette PalIceBlue;
+extern Palette PalXMas;
 
 #endif
