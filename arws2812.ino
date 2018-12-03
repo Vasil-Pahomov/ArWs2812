@@ -70,6 +70,8 @@ void setup() {
 }
 
 void loop() {
+  yield();
+  
   /* this piece of code checks for looping while trying to find different colors
   for (int pi=0;pi<PALS;pi++) {
     int c = 0;
@@ -87,6 +89,8 @@ void loop() {
   
   anim.run();
   
+  yield();
+
   if (millis() > ms) {
     ms = millis() + INTERVAL;
     switch ( (animInd < 0) ? 0 : random(1)) {
@@ -119,6 +123,8 @@ void loop() {
     Serial.println();
   }
   /**/
+
+  yield();
 
   server.handleClient();
 }

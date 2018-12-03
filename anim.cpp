@@ -26,10 +26,8 @@ void Anim::setPalette(Palette * pal) {
 void Anim::run()
 {    
     if ( millis()<=nextms) {
-        //digitalWrite(LED_BUILTIN, HIGH);
         return;
     }
-    //digitalWrite(LED_BUILTIN, LOW);
     nextms=millis() + period;
     
     if (runImpl != NULL)
@@ -64,8 +62,6 @@ void Anim::run()
     }
   
     pixels.show();
-    //digitalWrite(LED_BUILTIN, HIGH);
-    
 }
 
 void Anim::setUp()
