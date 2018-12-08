@@ -70,9 +70,9 @@ struct Color
     }
 
     void println() {
-        Serial.print(F("r="));Serial.print(r);
-        Serial.print(F("g="));Serial.print(g);
-        Serial.print(F("b="));Serial.println(b);
+        Serial1.print(F("r="));Serial1.print(r);
+        Serial1.print(F("g="));Serial1.print(g);
+        Serial1.print(F("b="));Serial1.println(b);
     }
 } ;
 

@@ -3,7 +3,7 @@
 #include <Adafruit_NeoPixel.h>
 #include "palette.h"
 
-#define PIN 2 // WS2812 pin number
+#define PIN 0 // WS2812 pin number
 #define LEDS 50 // number of LEDs in the strip 
 #define BRIGHTNESS 256// brightness adjustment, up to 256
 
@@ -82,6 +82,10 @@ private:
 
 
     //animation implementations
+    void animOff_SetUp();
+    void animOff_Run();
+
+    
     void animStart_SetUp();
     void animStart_Run();
 

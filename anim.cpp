@@ -92,45 +92,50 @@ void Anim::doSetUp()
 void Anim::setAnim(byte animInd)
 {
     switch (animInd) {
-        case 0: 
+        case 0:
+            setUpImpl = &Anim::animStart_SetUp;
+            runImpl = &Anim::animStart_Run;
+            setUpOnPalChange = true;
+        break;
+        case 1: 
             setUpImpl = &Anim::animRun_SetUp;
             runImpl = &Anim::animRun_Run;
             setUpOnPalChange = true;
         break;
-        case 1: 
+        case 2: 
             setUpImpl = &Anim::animPixieDust_SetUp;
             runImpl = &Anim::animPixieDust_Run;
             setUpOnPalChange = true;
         break;        
-        case 2: 
+        case 3: 
             setUpImpl = &Anim::animSparkr_SetUp;
             runImpl = &Anim::animSparkr_Run;
             setUpOnPalChange = true;
         break;        
-        case 3: 
+        case 4: 
             setUpImpl = &Anim::animRandCyc_SetUp;
             runImpl = &Anim::animRandCyc_Run;
             setUpOnPalChange = true;
         break;   
-        case 4: 
+        case 5: 
             setUpImpl = &Anim::animStars_SetUp;
             runImpl = &Anim::animStars_Run;
             setUpOnPalChange = false;
         break;    
-        case 5: 
+        case 6: 
             setUpImpl = &Anim::animSpread_SetUp;
             runImpl = &Anim::animSpread_Run;
             setUpOnPalChange = false;
         break;     
-        case 6: 
+        case 7: 
             setUpImpl = &Anim::animFly_SetUp;
             runImpl = &Anim::animFly_Run;
             setUpOnPalChange = false;
         break;                                
         default:
-            setUpImpl = &Anim::animStart_SetUp;
-            runImpl = &Anim::animStart_Run;
-            setUpOnPalChange = true;
+            setUpImpl = &Anim::animOff_SetUp;
+            runImpl = &Anim::animOff_Run;
+            setUpOnPalChange = false;
         break;
     }
 }

@@ -6,7 +6,7 @@
 //ledstmp keeps color of stars
 
 void Anim::animStars_SetUp() {
-    Serial.print(F("(stars)"));
+    Serial1.print(F("(stars)"));
     //inc is (average) interval between appearance of new stars
     inc = random (2, 5);
 
