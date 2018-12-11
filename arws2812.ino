@@ -152,7 +152,7 @@ void setEffect() {
     }
 
     int newAnimInd = server.arg("a").toInt();
-    if (newAnimInd >= ANIMS) {
+    if (newAnimInd > ANIMS) {
       char buf[100];
       sprintf(buf, "Wrong a=%d", newAnimInd);
       server.send(400, "text/html", buf);
