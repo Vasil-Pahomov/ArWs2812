@@ -132,11 +132,12 @@ void loop() {
 
   if (anim.run()) {
     if (commandComplete && command[0] == CMD_SETAP) {
-      //todo: anim/pal range checks
-      anim.setAnim(command[1]);
-      anim.setPalette(pals[command[2]]);
-      bt.write(command, 3);
-      ms = millis() + INTERVAL;
+      if ((command[1] < ANIMS) && (command[2] < PALS)) {
+          anim.setAnim(command[1]);
+          anim.setPalette(pals[command[2]]);
+          bt.write(command, 3);
+          ms = millis() + INTERVAL;
+      }
     }
 
     if (commandComplete && command[0] == CMD_MAGIC) {
