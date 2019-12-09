@@ -1,34 +1,46 @@
+// use button
+#define BUTTON_NEXT_EFF
+// use Bluetooth
+#define BT
+//whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
+//#define BTHS
+//if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
+//#define DEBUG
+
 #include <Adafruit_NeoPixel.h>
+
+#ifdef BT
 #define _SS_MAX_RX_BUFF 8 //lower SoftwareSerial's receive buffer to conserve some RAM
 #include <SoftwareSerial.h>
+#endif
 
 #include "palette.h"
 #include "anim.h"
 #include "commands.h"
 #include "small_timer.hpp"
+#ifdef BUTTON_NEXT_EFF
 #include "button_classes.hpp"
+#endif
 
 #define ANIMS 7 //number of animations
 #define PALS 7 //number of palettes
 #define INTERVAL 10000 //change interval, msec
 
-#define BUTTON_NEXT_EFF
 
 constexpr auto pinButtonNextEff = A0; // button pin for next effect
 constexpr bool buttonNextEffInverse = true; // options: inverse "button for next effect"
-
-//#define BTHS //whether to use hardware serial to communicate Bluetooth. Software serial is used otherwise
-//#define DEBUG //if defined, debug data is output to hardware serial port. REMEMBER TO REMOVE this definition once BTHS is set
 
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue};
 
 Anim anim = Anim();
 
+#ifdef BT
 #ifndef BTHS
 //11 and 12 are RX (from BT) and TX (to BT) pin numbers
 SoftwareSerial bt(11,12);
 #else
 #define bt Serial
+#endif
 #endif
 
 byte command[COMMAND_LENGTH-1];   //BT command buffer
@@ -44,9 +56,9 @@ uint8_t DetectTripleFastClickCounter = 0;
 constexpr bool disableAutoChangeEffects = false;
 #endif // BUTTON_NEXT_EFF
 
-csTimerDef <INTERVAL> EffectAutoChangeTimer; //startup animation duration
+csTimerDef <INTERVAL> EffectAutoChangeTimer; // auto change animation effect, interval timer
 
-int paletteInd = random(PALS);
+int paletteInd;
 int animInd = -1;
 
 int freeRam () {
@@ -62,15 +74,21 @@ void setup() {
   Serial.begin(9600);
   Serial.print(F("RAM="));Serial.println(freeRam());
 #endif
+
   pixels.begin();
+#ifdef BT
   bt.begin(9600);
+#endif
   randomSeed(analogRead(0)*analogRead(1));
+  paletteInd = random(PALS);
   anim.setAnim(animInd);
   anim.setPeriod(20);
   anim.setPalette(pals[0]);
   anim.doSetUp();
+#ifdef BT
 #ifndef BTHS
   bt.listen();
+#endif
 #endif
 
 #ifdef BUTTON_NEXT_EFF
@@ -103,6 +121,7 @@ void loop() {
 #endif // BUTTON_NEXT_EFF
 
 
+#ifdef BT
   if (bt.available()) {
     if (cmdPos == 0) { //wait for command marker when command buffer is empty, discard everything that doesn't match command marker
       byte b;
@@ -133,8 +152,10 @@ void loop() {
       cmdPos = 0;
     }
   }
+#endif
 
   if (anim.run()) {
+#ifdef BT
     if (commandComplete && command[0] == CMD_SETAP) {
       if ((command[1] < ANIMS) && (command[2] < PALS)) {
           anim.setAnim(command[1]);
@@ -152,6 +173,7 @@ void loop() {
       bt.print('!');
     }
     commandComplete = false;
+#endif
   }
 
 #ifdef BUTTON_NEXT_EFF
@@ -207,9 +229,11 @@ void loop() {
         break;
       }
     }
+#ifdef BT
     bt.print(F(">"));bt.print(animInd);bt.print(F("\t"));bt.println(paletteInd);
 #ifndef BTHS
     bt.listen();
+#endif
 #endif
   }
 
