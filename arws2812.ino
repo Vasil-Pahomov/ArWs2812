@@ -44,7 +44,7 @@ uint8_t DetectTripleFastClickCounter = 0;
 constexpr bool disableAutoChangeEffects = false;
 #endif // BUTTON_NEXT_EFF
 
-unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
+csTimerDef <INTERVAL> EffectAutoChangeTimer; //startup animation duration
 
 int paletteInd = random(PALS);
 int animInd = -1;
@@ -76,6 +76,8 @@ void setup() {
 #ifdef BUTTON_NEXT_EFF
   pinMode(pinButtonNextEff, INPUT_PULLUP);
 #endif // BUTTON_NEXT_EFF
+
+  EffectAutoChangeTimer.start(10000); // 10000 for "release" AnimStart
 }
 
 void loop() {
@@ -93,6 +95,8 @@ void loop() {
     Serial.print(F(" c="));Serial.println(c);
   }
   /**/
+
+  bool needChange = EffectAutoChangeTimer.run();
 
 #ifdef BUTTON_NEXT_EFF
   btnNextEff.run(digitalRead(pinButtonNextEff));
@@ -136,7 +140,7 @@ void loop() {
           anim.setAnim(command[1]);
           anim.setPalette(pals[command[2]]);
           bt.write(command, 3);
-          ms = millis() + INTERVAL;
+          EffectAutoChangeTimer.start();
       }
     }
 
@@ -144,8 +148,7 @@ void loop() {
       animInd = 7; //todo: why 7? (remove magik constant)
       anim.setAnim(animInd);
       anim.doSetUp();
-      //todo: why 60000? (remove magik constant)
-      ms = millis() + 60000;
+      EffectAutoChangeTimer.start();
       bt.print('!');
     }
     commandComplete = false;
@@ -174,19 +177,17 @@ void loop() {
   if (DetectTripleFastClickTimer.run()) {
     if (DetectTripleFastClickCounter == 3) {
       disableAutoChangeEffects = false;
-      //todo: add abstract the change mechanism
       // force change effect
-      ms = millis();
+      needChange = true;
     }
     DetectTripleFastClickCounter = 0;
   }
 #endif // BUTTON_NEXT_EFF
 
   // auto change effect
-  if ((millis() > ms) && ( ! disableAutoChangeEffects)) {
-    //TODO: rollover bug. after 49 days uptime this code will be broken
-    //      (correct code in: https://www.arduino.cc/en/tutorial/BlinkWithoutDelay and https://arduino.stackexchange.com/questions/12587/how-can-i-handle-the-millis-rollover )
-    ms = millis() + INTERVAL;
+  if (needChange && ! disableAutoChangeEffects) {
+    EffectAutoChangeTimer.start();
+
     switch ( (animInd < 0) ? 0 : random(2)) {
       case 0:
       {
