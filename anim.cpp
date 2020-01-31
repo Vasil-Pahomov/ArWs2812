@@ -9,7 +9,9 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800);
 
 Anim::Anim() 
 {
+#if defined(ESP8266)
     nextms = millis();
+#endif    
 }
 
 void Anim::setPeriod(byte period) {
@@ -25,11 +27,12 @@ void Anim::setPalette(Palette * pal) {
 
 void Anim::run()
 {    
+#if defined(ESP8266)
     if ( millis()<=nextms) {
         return;
     }
     nextms=millis() + period;
-    
+#endif    
     if (runImpl != NULL)
     {
         (this->*runImpl)();
