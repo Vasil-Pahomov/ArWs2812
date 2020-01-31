@@ -1,5 +1,12 @@
 #ifndef anim_h
 #define anim_h
+
+#if defined(ESP8266)
+#define DebugSerial Serial1
+#else
+#define DebugSerial Serial
+#endif
+
 #include <Adafruit_NeoPixel.h>
 #include "palette.h"
 
@@ -36,8 +43,10 @@ private:
     Color *leds;
     Palette *palette;
 
+#if defined(ESP8266)
     // millis for next timeslot 
     unsigned long nextms;
+#endif    
     // millis to transition end
     unsigned long transms;
 
@@ -115,6 +124,7 @@ public:
 
     Anim();
     void setPeriod(byte period);
+    byte getPeriod() {return period;};
     void setPalette(Palette * pal);
     void setAnim(byte animInd);
     void run();
