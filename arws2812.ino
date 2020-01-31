@@ -1,14 +1,24 @@
 #include <Adafruit_NeoPixel.h>
 
-
-#include "palette.h"
-
 #include "anim.h"
 
+#if defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+
+ESP8266WebServer server(80);
+#else
+#include <WiFi.h>
+#include <WiFiClient.h>
+#include <WebServer.h>
+#include <ESPmDNS.h>
+WebServer server(80);
+
+#include <Ticker.h>
+Ticker ticker;
+#endif
 
 #define ANIMS 7 //number of animations (not including start one)
 #define PALS 8 //number of palettes
@@ -22,6 +32,7 @@
 Palette * pals[PALS] = {&PalRgb, &PalRainbow, &PalRainbowStripe, &PalParty, &PalHeat, &PalFire, &PalIceBlue, &PalXMas};
 
 Anim anim = Anim();
+void animTick();
 
 unsigned long ms = 10000;//startup animation duration, 10000 for "release" AnimStart
 
@@ -30,15 +41,13 @@ int animInd = 0;
 
 extern Adafruit_NeoPixel pixels;
 
-ESP8266WebServer server(80);
-
 const char HTML[] PROGMEM = 
 "<!DOCTYPE HTML><html lang=\"ru-RU\"><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script>const ESP_SRV=\"\";let suspendTimer;function suspend(){sendCmd(\"/sus\").then(function(response){return response.json();}).then(function(data){document.body.style.display=\"\";document.getElementById('animSelect').value=data.a;document.getElementById('palSelect').value=data.p;console.log(\"a=\" + data.a + \",p=\" + data.p);document.getElementById('onBox').checked=(data.a >=0);document.getElementById('mainControls').style.display=(data.a >=0) ? '' : 'hidden';});}function onAnimPalChange(){sendCmd(\"/set?a=\" + document.getElementById('animSelect').value + \"&p=\" + document.getElementById('palSelect').value);}function sendCmd(url){if (suspendTimer){clearTimeout(suspendTimer);}return fetch(ESP_SRV + url).then(function(response){if (response.ok){suspendTimer=window.setTimeout(suspend, 5000);return response;}else{throw new Error();}}).catch(function(err){alert('Error communicating!');suspendTimer=window.setTimeout(suspend, 500);throw new Error(err);});;}function onOnBoxChange(){var mainControlsDiv=document.getElementById('mainControls'); if (document.getElementById('onBox').checked){mainControlsDiv.style.display='';document.getElementById('animSelect').value=0;onAnimPalChange();}else{mainControlsDiv.style.display='none';sendCmd(\"/set?a=-1&p=\" + document.getElementById('palSelect').value);}}document.addEventListener(\"DOMContentLoaded\", start);function start(){suspend();}</script><style>body{font-size:200%;font-family: Arial;}select{width: 100%;font-size:100%;margin: 10px 0;border: solid 2px;}</style></head><body style=\"display:none\"><label><input type=\"checkbox\" id=\"onBox\" onchange=\"onOnBoxChange()\"/>Включить</label><div id=\"mainControls\"><select id=\"animSelect\" onchange=\"onAnimPalChange()\"><option value=\"0\">Начальная</option><option value=\"1\">Бег</option><option value=\"2\">Пыльца эльфов</option><option value=\"3\">Вспышки</option><option value=\"4\">Случайный цикл</option><option value=\"5\">Звезды</option><option value=\"6\">Полосы</option><option value=\"7\">Полет</option></select><select id=\"palSelect\" onchange=\"onAnimPalChange()\"><option value=\"0\">RGB</option><option value=\"1\">Радуга</option><option value=\"2\">Полосатая радуга</option><option value=\"3\">Вечеринка</option><option value=\"4\">Жара</option><option value=\"5\">Огонь</option><option value=\"6\">Лёд</option><option value=\"7\">Рождество</option></select></div></body></html>";
 
 void setup() {
-    Serial1.begin(115200);
+    DebugSerial.begin(115200);
 
-  Serial1.println("Entering setup");
+  DebugSerial.println("Entering setup");
   pixels.begin();
   randomSeed(analogRead(0)*analogRead(1));
   anim.setAnim(animInd);
@@ -46,15 +55,17 @@ void setup() {
   anim.setPalette(pals[0]);
   anim.doSetUp();
 
+  ticker.attach_ms(anim.getPeriod(), animTick);
+
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 
  // ждем соединения:
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial1.print(".");
+    DebugSerial.print(".");
   }
 
-  Serial1.print("IP address: ");Serial1.println(WiFi.localIP());
+  DebugSerial.print("IP address: ");DebugSerial.println(WiFi.localIP());
 
 
   //index page
@@ -72,12 +83,21 @@ void setup() {
   server.on("/set",[](){ setEffect(); });
   
   server.begin();
-  Serial1.println("Setup done");
+  DebugSerial.println("Setup done");
 }
 
 void loop() {
+#if defined(ESP8266)
   yield();
-  
+  animTick();
+  yield();
+#endif
+
+  server.handleClient();
+}
+
+void animTick()
+{
   /* this piece of code checks for looping while trying to find different colors
   for (int pi=0;pi<PALS;pi++) {
     int c = 0;
@@ -95,15 +115,17 @@ void loop() {
 
   anim.run();
   
+#if defined(ESP8266)
   yield();
+#endif
   
   if (millis() > ms && animInd >= 0) {// non-negative animind is for turned off strip - it never ends automatically
-    Serial1.print("RSSI:");Serial1.print(WiFi.RSSI());Serial1.print(" ST:");Serial1.println(WiFi.status());
+    DebugSerial.print("RSSI:");DebugSerial.print(WiFi.RSSI());DebugSerial.print(" ST:");DebugSerial.println(WiFi.status());
     ms = millis() + INTERVAL; 
     switch ( (animInd < 0) ? 0 : random(1)) {
       case 0: 
       {
-        Serial1.print(F("anim->"));
+        DebugSerial.print(F("anim->"));
         int prevAnimInd = animInd;
 #ifdef USE_START_ANIMATION
         while (prevAnimInd == animInd) animInd = random(ANIMS+1);
@@ -119,21 +141,21 @@ void loop() {
       }
       case 1:
       {
-        Serial1.print(F("pal->"));
+        DebugSerial.print(F("pal->"));
         int prevPalInd = paletteInd;
         while (prevPalInd == paletteInd) paletteInd = random(PALS);
         anim.setPalette(pals[paletteInd]);
-        Serial1.print(paletteInd);
+        DebugSerial.print(paletteInd);
         break;
       }
     }
-    Serial1.println();
+    DebugSerial.println();
+#if defined(ESP32)
+    ticker.detach();
+    ticker.attach_ms(anim.getPeriod(), animTick);
+#endif
   }
   /**/
-
-  yield();
-
-  server.handleClient();
 }
 
 void sustainEffect() {
