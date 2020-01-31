@@ -68,12 +68,13 @@ struct Color
       int diff = abs(r-c.r) + abs(g-c.g) + abs(b-c.b);
       return diff <= 220; //220 is magic number. Low values give "true" on closer colors, while higher can cause infinite loop while trying to find different color
     }
-
+/*
     void println() {
         Serial1.print(F("r="));Serial1.print(r);
         Serial1.print(F("g="));Serial1.print(g);
         Serial1.print(F("b="));Serial1.println(b);
     }
+*/
 } ;
 
 #endif
