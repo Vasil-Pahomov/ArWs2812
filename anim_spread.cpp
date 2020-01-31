@@ -5,7 +5,7 @@
 #define SPREAD_MAX_WIDTH 20
 
 void Anim::animSpread_SetUp() {
-    Serial1.print(F("(spread)"));
+    DebugSerial.print(F("(spread)"));
     inc = random(2,8);
     memset(seq, 0, LEDS);
 }
