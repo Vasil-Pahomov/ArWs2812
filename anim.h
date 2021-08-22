@@ -4,6 +4,7 @@
 #include "palette.h"
 
 #define PIN 2 // WS2812 pin number
+#define PIN2 3 
 #define LEDS 99 // number of LEDs in the strip. Not sure why, but 100 leds don't work with software serial! Works with hardware serial though
 #define BRIGHTNESS 256// brightness adjustment, up to 256
 

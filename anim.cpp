@@ -6,7 +6,7 @@
 
 //Adafruit's class to operate strip
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
-Adafruit_NeoPixel pixels2 = Adafruit_NeoPixel(LEDS, 6, NEO_GRB + NEO_KHZ800); 
+Adafruit_NeoPixel pixels2 = Adafruit_NeoPixel(LEDS, PIN2, NEO_GRB + NEO_KHZ800); 
 
 
 
