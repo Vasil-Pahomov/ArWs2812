@@ -67,7 +67,7 @@ int freeRam () {
   return (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 }
 
-extern Adafruit_NeoPixel pixels;
+extern Adafruit_NeoPixel pixels, pixels2;
 
 void setup() {
 #ifdef DEBUG
@@ -76,6 +76,7 @@ void setup() {
 #endif
 
   pixels.begin();
+  pixels2.begin();
 #ifdef BT
   bt.begin(9600);
 #endif
@@ -239,4 +240,3 @@ void loop() {
 
 
 }
-

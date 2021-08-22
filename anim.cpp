@@ -6,6 +6,7 @@
 
 //Adafruit's class to operate strip
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(LEDS, PIN, NEO_GRB + NEO_KHZ800); 
+Adafruit_NeoPixel pixels2 = Adafruit_NeoPixel(LEDS, 6, NEO_GRB + NEO_KHZ800); 
 
 
 
@@ -53,7 +54,11 @@ bool Anim::run()
             byte r = (int)pgm_read_byte_near(BRI + c.r) * BRIGHTNESS / 256;
             byte g = (int)pgm_read_byte_near(BRI + c.g) * BRIGHTNESS / 256;
             byte b = (int)pgm_read_byte_near(BRI + c.b) * BRIGHTNESS / 256;
-            pixels.setPixelColor(i, pixels.Color(r, g, b));
+            if (i<100) {
+              pixels.setPixelColor(i, pixels.Color(r, g, b));
+            } else {
+              pixels2.setPixelColor(i-100, pixels.Color(r, g, b));
+            }
         }
     } else {
         for(int i=0; i<LEDS; i++) {
@@ -62,11 +67,16 @@ bool Anim::run()
             byte r = (int)pgm_read_byte_near(BRI + leds[i].r) * BRIGHTNESS / 256;
             byte g = (int)pgm_read_byte_near(BRI + leds[i].g) * BRIGHTNESS / 256;
             byte b = (int)pgm_read_byte_near(BRI + leds[i].b) * BRIGHTNESS / 256;
-            pixels.setPixelColor(i, pixels.Color(r, g, b));
+            if (i<100) {
+              pixels.setPixelColor(i, pixels.Color(r, g, b));
+            } else {
+              pixels2.setPixelColor(i-100, pixels.Color(r, g, b));
+            }
         }
     }
 
     pixels.show();
+    pixels2.show();
 
     return true;
     
